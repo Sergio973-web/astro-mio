@@ -17,7 +17,7 @@ export default function BienvenidaConBotones() {
       {!mostrarFormulario ? (
         <>
           <p style={styles.parrafoDestacado}>
-            ✨ <strong>¡Hola!</strong> Qué lindo que te interese <strong>Astro Mío</strong>, gracias por escribirnos ✨
+            ✨ <strong>¡Hola!</strong> Qué lindo que te interese <strong>Astro Mío.</strong>✨
           </p>
           <p style={styles.parrafo}>
             Cada persona nace con una energía única, y en Astro Mío te ayudamos a descubrirla y armonizarla <span role="img" aria-label="luna y sol">🌙☀</span>
@@ -29,7 +29,7 @@ export default function BienvenidaConBotones() {
             A veces esa energía no está en tu entorno, pero te damos herramientas para reconocerla, atraerla o canalizarla — en vínculos, espacios o prácticas personales. <span role="img" aria-label="meditación">🧘🏻‍♀</span>
           </p>
           <p style={styles.parrafoImportante}>
-            📝 Descubre Astro Mío para Armonizar completando el formulario.</p>
+            📝 Descubre Astro Mío para Armonizar tu energía en el entorno que vives completando el formulario.</p>
           <p style={styles.parrafo}>¡Estamos para acompañarte! ✨</p>
 
           <div style={styles.botonesContainer}>
