@@ -15,31 +15,48 @@ function App() {
       </Helmet>
 
       <div
+      style={{
+        backgroundImage: `url(${fondo})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '2rem',
+        color: '#333',
+        backdropFilter: 'brightness(0.95)',
+        flexDirection: 'column',
+        textAlign: 'center',
+      }}
+    >
+      <div
         style={{
-          backgroundImage: `url(${fondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          minHeight: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: '2rem',
-          color: '#333',
-          backdropFilter: 'brightness(0.95)',
-          flexDirection: 'column',
-          textAlign: 'center',
+          width: '100%',
+          maxWidth: '800px', // 🔸 Controla el ancho máximo del contenido
+          margin: '0 auto',  // 🔸 Centra el contenido
+          padding: '1rem',
         }}
       >
         <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#DAA520' }}>
           Astro Mío
         </h1>
-        <p style={{ maxWidth: '600px', margin: '1rem 0', fontSize: '1.5rem', fontWeight: 'bold', color: '#DAA520' }}>
-          Bienvenido. Aquí descubrirás qué persona se conecta con vos para equilibrar energías.
+        <p
+          style={{
+            fontSize: '1.5rem',
+            fontWeight: 'bold',
+            color: '#DAA520',
+            marginTop: '1rem',
+          }}
+        >
+          Bienvenido. Te ayudamos a descubrir qué energía complementa la tuya para lograr equilibrio emocional.
         </p>
 
         <BienvenidaConBotones />
       </div>
+    </div>
+
     </>
   );
 }
