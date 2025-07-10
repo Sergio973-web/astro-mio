@@ -25,7 +25,7 @@ export default function FormularioDeLectura({ onVolver }) {
     e.preventDefault();
 
     const mensaje = `
-  Hola, quiero mi lectura personalizada con estos datos:
+  Hola, quiero mi Armonización personalizada con estos datos:
 
   - Nombre: ${formData.nombre}
   - Lugar de Nacimiento: ${formData.lugarNacimiento}

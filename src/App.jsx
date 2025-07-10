@@ -1,10 +1,25 @@
 // src/App.jsx
-import BienvenidaConBotones from './components/BienvenidaConBotones'; // Importa el componente
+import fondo from './assets/fondo.jpg';
+import BienvenidaConBotones from './components/BienvenidaConBotones';
 
 function App() {
   return (
-    <div style={{ backgroundColor: '#f9f5f0', minHeight: '100vh', color: '#333' }}>
-      <BienvenidaConBotones />  {/* Coloca el componente aquí */}
+    <div
+      style={{
+        backgroundImage: `url(${fondo})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '2rem',
+        color: '#333',
+        backdropFilter: 'brightness(0.95)',
+      }}
+    >
+      <BienvenidaConBotones />
     </div>
   );
 }
