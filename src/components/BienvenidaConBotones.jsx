@@ -20,10 +20,10 @@ export default function BienvenidaConBotones() {
             ✨ <strong>¡Hola!</strong> Qué lindo que te interese <strong>Astro Mío.</strong>✨
           </p>
           <p style={styles.parrafo}>
-            Cada persona nace con una energía única, y en Astro Mío te ayudamos a descubrirla y armonizarla <span role="img" aria-label="luna y sol">🌙☀</span>
+            Cada persona nace con una energía única, y quiero ayudar a descubrirla y armonizarla <span role="img" aria-label="luna y sol">🌙☀</span>
           </p>
           <p style={styles.parrafo}>
-            A partir de tu mapa energético identificamos la energía que te complementa, clave para lograr equilibrio emocional y armonía en tus vínculos. <span role="img" aria-label="estrella fugaz">💫</span>
+            A partir de tu mapa energético se encuentra la energía que te complementa, clave para lograr equilibrio emocional y armonía en tus vínculos. <span role="img" aria-label="estrella fugaz">💫</span>
           </p>
           <p style={styles.parrafo}>
             A veces esa energía no está en tu entorno, pero te damos herramientas para reconocerla, atraerla o canalizarla — en vínculos, espacios o prácticas personales. <span role="img" aria-label="meditación">🧘🏻‍♀</span>
@@ -65,18 +65,21 @@ export default function BienvenidaConBotones() {
 }
 
 const styles = {
-  section: {
-    width: '100%',
-    maxWidth: '1000px',
-    margin: '2rem auto',
-    padding: '2rem',
-    backgroundColor: '#fff',
-    borderRadius: '8px',
-    boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
-    textAlign: 'center',
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-    color: '#333',
-  },
+    section: {
+      width: '100%',
+      maxWidth: '700px',
+      marginTop: '1rem',          // ajustado
+      marginBottom: '0',          // ajustado
+      marginLeft: 'auto',         // centrado horizontal
+      marginRight: 'auto',        // centrado horizontal
+      padding: '2rem',
+      backgroundColor: '#fff',
+      borderRadius: '8px',
+      boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
+      textAlign: 'center',
+      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      color: '#333',
+    },
 
   parrafoDestacado: {
     fontSize: '1.25rem',
