@@ -65,36 +65,36 @@ export default function BienvenidaConBotones() {
 }
 
 const styles = {
-    section: {
-      width: '100%',
-      maxWidth: '700px',
-      marginTop: '1rem',          // ajustado
-      marginBottom: '0',          // ajustado
-      marginLeft: 'auto',         // centrado horizontal
-      marginRight: 'auto',        // centrado horizontal
-      padding: '2rem',
-      backgroundColor: '#fff',
-      borderRadius: '8px',
-      boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
-      textAlign: 'center',
-      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      color: '#333',
-    },
+  section: {
+    width: '100%',
+    maxWidth: '700px',
+    margin: '1rem auto 0 auto',
+    padding: '1.5rem',
+    backgroundColor: '#fff',
+    borderRadius: '8px',
+    boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
+    textAlign: 'center',
+    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    color: '#333',
+  },
 
   parrafoDestacado: {
-    fontSize: '1.25rem',
+    fontSize: '1.125rem', // ≈ 18px
     marginBottom: '1rem',
   },
+
   parrafo: {
     fontSize: '1rem',
     marginBottom: '1rem',
-    lineHeight: '1.5',
+    lineHeight: '1.6',
   },
+
   parrafoImportante: {
     fontSize: '1.1rem',
     marginBottom: '1.5rem',
     fontWeight: '600',
   },
+
   botonesContainer: {
     marginTop: '2rem',
     display: 'flex',
@@ -102,9 +102,10 @@ const styles = {
     gap: '1rem',
     flexWrap: 'wrap',
   },
+
   boton: {
-    padding: '0.75rem 1.5rem',
-    color: 'white',
+    padding: '0.75rem 1.25rem',
+    color: '#fff',
     fontWeight: '700',
     borderRadius: '6px',
     textDecoration: 'none',
@@ -112,5 +113,7 @@ const styles = {
     boxShadow: '0 3px 6px rgba(0,0,0,0.1)',
     transition: 'background-color 0.3s ease',
     cursor: 'pointer',
+    minWidth: '140px', // buen tamaño para móvil
+    textAlign: 'center',
   },
 };
