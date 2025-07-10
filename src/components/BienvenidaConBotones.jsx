@@ -35,7 +35,7 @@ export default function BienvenidaConBotones() {
 
           <div style={styles.botonesContainer}>
             <a
-              href="https://wa.me/5491123456789"
+              href="https://wa.me/542302419786"
               target="_blank"
               rel="noopener noreferrer"
               style={{ ...styles.boton, backgroundColor: '#25d366' }}
