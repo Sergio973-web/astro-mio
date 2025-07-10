@@ -29,8 +29,7 @@ export default function BienvenidaConBotones() {
             A veces esa energía no está en tu entorno, pero te damos herramientas para reconocerla, atraerla o canalizarla — en vínculos, espacios o prácticas personales. <span role="img" aria-label="meditación">🧘🏻‍♀</span>
           </p>
           <p style={styles.parrafoImportante}>
-            📝 Si querés tu lectura personalizada, completá el formulario que está en nuestro perfil. El valor es de <strong>$25.000</strong> e incluye todo para empezar tu proceso.
-          </p>
+            📝 Descubre Astro Mío para Armonizar completando el formulario.</p>
           <p style={styles.parrafo}>¡Estamos para acompañarte! ✨</p>
 
           <div style={styles.botonesContainer}>
