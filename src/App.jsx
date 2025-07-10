@@ -1,5 +1,5 @@
 // src/App.jsx
-import fondo from './assets/fondo.jpg';
+import fondo from './assets/fondo.png';
 import BienvenidaConBotones from './components/BienvenidaConBotones';
 
 function App() {
