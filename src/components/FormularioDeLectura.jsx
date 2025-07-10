@@ -1,7 +1,6 @@
-// src/components/FormularioDeLectura.jsx
 import { useState } from 'react';
 
-export default function FormularioDeLectura() {
+export default function FormularioDeLectura({ onVolver }) {
   const [formData, setFormData] = useState({
     nombre: '',
     lugarNacimiento: '',
@@ -16,17 +15,36 @@ export default function FormularioDeLectura() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí puedes manejar el envío del formulario (ej. enviarlo a un servidor)
-    console.log(formData);
+
+    const mensaje = `
+  Hola, quiero mi lectura personalizada con estos datos:
+
+  - Nombre: ${formData.nombre}
+  - Lugar de Nacimiento: ${formData.lugarNacimiento}
+  - Fecha de Nacimiento: ${formData.fechaNacimiento}
+  - Hora de Nacimiento: ${formData.horaNacimiento}
+  - Relación con la persona a armonizar: ${formData.relacionConPersona}
+  - Lugar de nacimiento persona: ${formData.lugarNacimientoPersona}
+  - Fecha de nacimiento persona: ${formData.fechaNacimientoPersona}
+  - Hora de nacimiento persona: ${formData.horaNacimientoPersona}
+  - Comentarios adicionales: ${formData.comentarioAdicional}
+    `;
+
+    // Convertir el mensaje a URL amigable
+    const url = `https://wa.me/5492302419786?text=${encodeURIComponent(mensaje)}`;
+
+    // Abrir WhatsApp con mensaje prellenado
+    window.open(url, '_blank');
   };
+
 
   return (
     <section style={styles.section}>
@@ -121,8 +139,15 @@ export default function FormularioDeLectura() {
             rows="4"
           ></textarea>
         </div>
-        <div style={styles.formGroup}>
-          <button type="submit" style={styles.boton}>Enviar</button>
+        <div style={styles.botonesForm}>
+          <button type="submit" style={styles.botonEnviar}>Enviar</button>
+          <button
+            type="button"
+            onClick={onVolver}
+            style={styles.botonVolver}
+          >
+            Volver
+          </button>
         </div>
       </form>
     </section>
@@ -137,7 +162,6 @@ const styles = {
     backgroundColor: '#fff',
     borderRadius: '8px',
     boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
-    textAlign: 'center',
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     color: '#333',
   },
@@ -145,6 +169,7 @@ const styles = {
     fontSize: '1.75rem',
     fontWeight: '600',
     marginBottom: '1.5rem',
+    textAlign: 'center',
   },
   form: {
     display: 'flex',
@@ -152,8 +177,11 @@ const styles = {
   },
   formGroup: {
     marginBottom: '1rem',
+    display: 'flex',
+    flexDirection: 'column',
+    textAlign: 'left',
   },
-  boton: {
+  botonEnviar: {
     padding: '0.75rem 1.5rem',
     backgroundColor: '#8b5cf6',
     color: 'white',
@@ -164,5 +192,23 @@ const styles = {
     fontSize: '1rem',
     boxShadow: '0 3px 6px rgba(0,0,0,0.1)',
     transition: 'background-color 0.3s ease',
+    marginRight: '1rem',
+  },
+  botonVolver: {
+    padding: '0.75rem 1.5rem',
+    backgroundColor: '#6b7280',
+    color: 'white',
+    fontWeight: '700',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    border: 'none',
+    fontSize: '1rem',
+    boxShadow: '0 3px 6px rgba(0,0,0,0.1)',
+    transition: 'background-color 0.3s ease',
+  },
+  botonesForm: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '1rem',
   },
 };
