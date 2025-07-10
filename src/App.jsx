@@ -10,7 +10,7 @@ function App() {
         <title>Astro Mío</title>
         <meta
           name="description"
-          content="Consultas astrológicas, cartas natales, revolución solar y más. Conectate con tu universo interior con Astro Mío."
+          content="Conectate con tu universo con Astro Mío."
         />
       </Helmet>
 
@@ -29,22 +29,17 @@ function App() {
           backdropFilter: 'brightness(0.95)',
           flexDirection: 'column',
           textAlign: 'center',
-          maxWidth: '700px',      // nuevo
-          width: '80%',          // nuevo
-          margin: '0 auto',       // nuevo
         }}
       >
-        <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>
-          Astro Mío: Tu astrología personalizada
+        <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#DAA520' }}>
+          Astro Mío
         </h1>
-        <p style={{ maxWidth: '600px', margin: '1rem 0' }}>
-          Bienvenido a Astro Mío. Con Astro Mío encontrarás qué persona se liga
-          a vos para equilibrar energías.
+        <p style={{ maxWidth: '600px', margin: '1rem 0', fontSize: '1.5rem', fontWeight: 'bold', color: '#DAA520' }}>
+          Bienvenido. Aquí descubrirás qué persona se conecta con vos para equilibrar energías.
         </p>
 
         <BienvenidaConBotones />
       </div>
-
     </>
   );
 }
