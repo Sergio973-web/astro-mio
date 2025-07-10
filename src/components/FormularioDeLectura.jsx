@@ -13,6 +13,8 @@ export default function FormularioDeLectura({ onVolver }) {
     comentarioAdicional: '',
   });
 
+  const [formEnviado, setFormEnviado] = useState(false); // NUEVO
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -24,133 +26,97 @@ export default function FormularioDeLectura({ onVolver }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validación mínima
+    for (const key in formData) {
+      if (key !== 'comentarioAdicional' && formData[key].trim() === '') {
+        alert('Por favor completá todos los campos obligatorios.');
+        return;
+      }
+    }
+
     const mensaje = `
-  Hola, quiero mi Armonización personalizada con estos datos:
+📄 *Formulario de Lectura Astro Mío*
 
-  - Nombre: ${formData.nombre}
-  - Lugar de Nacimiento: ${formData.lugarNacimiento}
-  - Fecha de Nacimiento: ${formData.fechaNacimiento}
-  - Hora de Nacimiento: ${formData.horaNacimiento}
-  - Relación con la persona a armonizar: ${formData.relacionConPersona}
-  - Lugar de nacimiento persona: ${formData.lugarNacimientoPersona}
-  - Fecha de nacimiento persona: ${formData.fechaNacimientoPersona}
-  - Hora de nacimiento persona: ${formData.horaNacimientoPersona}
-  - Comentarios adicionales: ${formData.comentarioAdicional}
-    `;
+👤 Nombre: ${formData.nombre}
+📍 Lugar de nacimiento: ${formData.lugarNacimiento}
+📅 Fecha de nacimiento: ${formData.fechaNacimiento}
+⏰ Hora de nacimiento: ${formData.horaNacimiento}
 
-    // Convertir el mensaje a URL amigable
-    const url = `https://wa.me/5492302419786?text=${encodeURIComponent(mensaje)}`;
+🤝 Relación con la persona: ${formData.relacionConPersona}
+📍 Lugar de nacimiento de la otra persona: ${formData.lugarNacimientoPersona}
+📅 Fecha de nacimiento de la otra persona: ${formData.fechaNacimientoPersona}
+⏰ Hora de nacimiento de la otra persona: ${formData.horaNacimientoPersona}
 
-    // Abrir WhatsApp con mensaje prellenado
-    window.open(url, '_blank');
+📝 Comentario adicional: ${formData.comentarioAdicional || "Ninguno"}
+💰 Costo: $25.000
+`;
+
+    const whatsappURL = `https://wa.me/5492302419786?text=${encodeURIComponent(mensaje)}`;
+    window.open(whatsappURL, '_blank');
+
+    // Mostrar botón de pago
+    setFormEnviado(true);
   };
-
 
   return (
     <section style={styles.section}>
       <h2 style={styles.titulo}>Formulario de Lectura</h2>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <div style={styles.formGroup}>
-          <label>¿Cuál es tu nombre?</label>
-          <input
-            type="text"
-            name="nombre"
-            value={formData.nombre}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div style={styles.formGroup}>
-          <label>Lugar de Nacimiento (ciudad, provincia, país)</label>
-          <input
-            type="text"
-            name="lugarNacimiento"
-            value={formData.lugarNacimiento}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div style={styles.formGroup}>
-          <label>¿Cuál es tu fecha de nacimiento?</label>
-          <input
-            type="date"
-            name="fechaNacimiento"
-            value={formData.fechaNacimiento}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div style={styles.formGroup}>
-          <label>Hora de Nacimiento</label>
-          <input
-            type="time"
-            name="horaNacimiento"
-            value={formData.horaNacimiento}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div style={styles.formGroup}>
-          <label>¿Qué relación tenés con la persona a armonizar?</label>
-          <input
-            type="text"
-            name="relacionConPersona"
-            value={formData.relacionConPersona}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div style={styles.formGroup}>
-          <label>Lugar de Nacimiento de la persona (ciudad, provincia, país)</label>
-          <input
-            type="text"
-            name="lugarNacimientoPersona"
-            value={formData.lugarNacimientoPersona}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div style={styles.formGroup}>
-          <label>¿Cuál es la fecha de nacimiento de esa persona?</label>
-          <input
-            type="date"
-            name="fechaNacimientoPersona"
-            value={formData.fechaNacimientoPersona}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div style={styles.formGroup}>
-          <label>Hora de Nacimiento de esa persona</label>
-          <input
-            type="time"
-            name="horaNacimientoPersona"
-            value={formData.horaNacimientoPersona}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div style={styles.formGroup}>
-          <label>¿Querés agregar algún comentario adicional?</label>
-          <textarea
-            name="comentarioAdicional"
-            value={formData.comentarioAdicional}
-            onChange={handleChange}
-            rows="4"
-          ></textarea>
-        </div>
-        <div style={styles.botonesForm}>
-          <button type="submit" style={styles.botonEnviar}>Enviar</button>
-          <button
-            type="button"
-            onClick={onVolver}
-            style={styles.botonVolver}
+
+      {!formEnviado ? (
+        <form onSubmit={handleSubmit} style={styles.form}>
+          {/* Campos */}
+          <Campo label="¿Cuál es tu nombre?" name="nombre" value={formData.nombre} onChange={handleChange} />
+          <Campo label="Lugar de Nacimiento (ciudad, provincia, país)" name="lugarNacimiento" value={formData.lugarNacimiento} onChange={handleChange} />
+          <Campo type="date" label="¿Cuál es tu fecha de nacimiento?" name="fechaNacimiento" value={formData.fechaNacimiento} onChange={handleChange} />
+          <Campo type="time" label="Hora de Nacimiento" name="horaNacimiento" value={formData.horaNacimiento} onChange={handleChange} />
+          <Campo label="¿Qué relación tenés con la persona a armonizar?" name="relacionConPersona" value={formData.relacionConPersona} onChange={handleChange} />
+          <Campo label="Lugar de nacimiento de la persona" name="lugarNacimientoPersona" value={formData.lugarNacimientoPersona} onChange={handleChange} />
+          <Campo type="date" label="Fecha de nacimiento de la persona" name="fechaNacimientoPersona" value={formData.fechaNacimientoPersona} onChange={handleChange} />
+          <Campo type="time" label="Hora de nacimiento de la persona" name="horaNacimientoPersona" value={formData.horaNacimientoPersona} onChange={handleChange} />
+          <div style={styles.formGroup}>
+            <label>¿Querés agregar algún comentario adicional?</label>
+            <textarea name="comentarioAdicional" value={formData.comentarioAdicional} onChange={handleChange} rows="4" />
+          </div>
+
+          <p style={styles.costo}>
+            💰 El valor de la lectura personalizada es <strong>$25.000</strong>
+          </p>
+
+          <div style={styles.botonesForm}>
+            <button type="submit" style={styles.botonEnviar}>Enviar por WhatsApp</button>
+            <button type="button" onClick={onVolver} style={styles.botonVolver}>Volver</button>
+          </div>
+        </form>
+      ) : (
+        <div style={{ textAlign: 'center' }}>
+          <h3 style={{ color: '#10b981' }}>¡Gracias por enviar tu formulario!</h3>
+          <p style={{ margin: '1rem 0' }}>Podés completar el pago ahora para continuar con tu proceso:</p>
+          <a
+            href="https://mpago.la/1AMQeoy"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              ...styles.botonEnviar,
+              backgroundColor: '#3483fa',
+              display: 'inline-block',
+              textDecoration: 'none',
+            }}
           >
-            Volver
-          </button>
+            Pagar $25.000 con Mercado Pago
+          </a>
         </div>
-      </form>
+      )}
     </section>
+  );
+}
+
+// COMPONENTE REUTILIZABLE PARA CAMPOS
+function Campo({ label, name, value, onChange, type = "text" }) {
+  return (
+    <div style={styles.formGroup}>
+      <label>{label}</label>
+      <input type={type} name={name} value={value} onChange={onChange} required />
+    </div>
   );
 }
 
@@ -181,6 +147,13 @@ const styles = {
     flexDirection: 'column',
     textAlign: 'left',
   },
+  costo: {
+    fontSize: '1.1rem',
+    fontWeight: '600',
+    color: '#a855f7',
+    marginBottom: '1rem',
+    textAlign: 'center',
+  },
   botonEnviar: {
     padding: '0.75rem 1.5rem',
     backgroundColor: '#8b5cf6',
@@ -210,5 +183,6 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     marginTop: '1rem',
+    flexWrap: 'wrap',
   },
 };
