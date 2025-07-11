@@ -57,10 +57,6 @@ export default function NotaMiSolYLuna() {
         🌙 Tu Luna es el día en que el Sol se encuentra en la misma posición en la que estaba la Luna al momento de tu nacimiento.   
       </p>
 
-      <p style={styles.parrafo}>
-        Pronto vas a encontrar acá toda la información detallada para descubrir qué energías te componen 🌙☀
-      </p>
-
       <button
         onClick={() => navigate(-1)} // Volver a la página anterior
         style={styles.botonVolver}
