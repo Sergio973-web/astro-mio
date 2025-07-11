@@ -50,11 +50,11 @@ export default function NotaMiSolYLuna() {
       <h1 style={styles.titulo}>¿Qué es tu Sol y tu Luna?</h1>
 
       <p style={styles.parrafo}>
-        🌞 El Sol representa el día de tu cumpleaños y está ubicado en una constelación específica en ese momento. Esta posición indica tu identidad básica, tu esencia y cómo te muestras al mundo, según el calendario astrológico.
+        🌞 <strong>Tu Sol</strong> representa el día de tu cumpleaños y está ubicado en una constelación específica en ese momento. Esta posición indica tu identidad básica, tu esencia y cómo te muestras al mundo, según el calendario astrológico.
       </p>
 
       <p style={styles.parrafo}>
-        🌙 Tu Luna es el día en que el Sol se encuentra en la misma posición en la que estaba la Luna al momento de tu nacimiento.   
+        🌙 <strong>Tu Luna</strong> es el día en que el Sol se encuentra en la misma posición en la que estaba la Luna al momento de tu nacimiento.
       </p>
 
       <button
