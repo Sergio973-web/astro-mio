@@ -57,6 +57,11 @@ export default function NotaMiSolYLuna() {
         🌙 <strong>Tu Luna</strong> es el día en que el Sol se encuentra en la misma posición en la que estaba la Luna al momento de tu nacimiento.
       </p>
 
+      <p style={styles.parrafo}>
+        🎯 <strong>Objetivo:</strong> encontrar el complemento a tu energía y lograr que las relaciones con los demás perduren en el tiempo.
+      </p>
+
+
       <button
         onClick={() => navigate(-1)} // Volver a la página anterior
         style={styles.botonVolver}
