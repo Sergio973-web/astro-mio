@@ -54,7 +54,7 @@ export default function NotaMiSolYLuna() {
       </p>
 
       <p style={styles.parrafo}>
-        🌙 Tu Luna es la posición exacta donde estaba la Luna en el momento de tu nacimiento. Esto representa cómo te sientes por dentro, tus emociones y tu mundo interior. Mientras el Sol marca el día de tu cumpleaños y tu esencia externa, la Luna describe tu sensibilidad emocional y cómo reaccionas ante el entorno, según la órbita y el lugar donde estaba la Luna en ese día.
+        🌙 Tu Luna es el día en que el Sol se encuentra en la misma posición en la que estaba la Luna al momento de tu nacimiento.   
       </p>
 
       <p style={styles.parrafo}>
