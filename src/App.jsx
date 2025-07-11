@@ -42,7 +42,7 @@ function App() {
             marginBottom: '2rem',
           }}
         >
-          Bienvenido. Te ayudamos a descubrir qué energía complementa la tuya para lograr equilibrio emocional.
+          Gracias por interesarte en Astro Mío.
         </p>
 
         <BienvenidaConBotones />
