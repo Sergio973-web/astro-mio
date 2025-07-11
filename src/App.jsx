@@ -23,7 +23,7 @@ function App() {
         style={{
           width: '100%',
           maxWidth: '900px', // ancho máximo del contenido
-          backgroundColor: 'rgba(255, 255, 255, 0.85)', // fondo blanco semitransparente para mejor lectura
+          backgroundColor: 'rgba(255, 255, 255, 0.35)', // fondo blanco semitransparente para mejor lectura
           borderRadius: '12px',
           padding: '2rem',
           boxShadow: '0 4px 15px rgba(0,0,0,0.15)',
