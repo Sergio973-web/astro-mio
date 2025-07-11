@@ -79,7 +79,8 @@ export default function FormularioDeLectura({ onVolver }) {
           </div>
 
           <p style={styles.costo}>
-            💰 El valor de la lectura personalizada es <strong>$25.000</strong>
+            💰 El valor es de <strong>$25.000</strong><br />
+               Al enviar los datos se genera el link de pago.
           </p>
 
           <div style={styles.botonesForm}>
@@ -102,7 +103,7 @@ export default function FormularioDeLectura({ onVolver }) {
               textDecoration: 'none',
             }}
           >
-            Pagar $25.000 con Mercado Pago
+            Pagar $25.000 con Mercado Pago.
           </a>
         </div>
       )}

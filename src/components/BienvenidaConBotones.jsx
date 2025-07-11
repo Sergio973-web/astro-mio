@@ -54,7 +54,7 @@ export default function BienvenidaConBotones() {
               onClick={handleFormularioClick}
               style={{ ...styles.boton, backgroundColor: '#3b82f6' }}
             >
-              Formulario de Lectura
+              Formulario
             </button>
           </div>
         </>
