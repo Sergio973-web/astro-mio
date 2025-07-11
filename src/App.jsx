@@ -1,20 +1,10 @@
-// src/App.jsx
-import fondo from './assets/fondo.png';
+import React from 'react';
+import fondo from './assets/fondo.png'; // tu imagen de fondo
 import BienvenidaConBotones from './components/BienvenidaConBotones';
-import { Helmet } from 'react-helmet';
 
 function App() {
   return (
-    <>
-      <Helmet>
-        <title>Astro Mío</title>
-        <meta
-          name="description"
-          content="Conectate con tu universo con Astro Mío."
-        />
-      </Helmet>
-
-      <div
+    <div
       style={{
         backgroundImage: `url(${fondo})`,
         backgroundSize: 'cover',
@@ -24,19 +14,20 @@ function App() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: '2rem',
+        padding: '1.5rem',
         color: '#333',
         backdropFilter: 'brightness(0.95)',
-        flexDirection: 'column',
-        textAlign: 'center',
       }}
     >
       <div
         style={{
           width: '100%',
-          maxWidth: '800px', // 🔸 Controla el ancho máximo del contenido
-          margin: '0 auto',  // 🔸 Centra el contenido
-          padding: '1rem',
+          maxWidth: '900px', // ancho máximo del contenido
+          backgroundColor: 'rgba(255, 255, 255, 0.85)', // fondo blanco semitransparente para mejor lectura
+          borderRadius: '12px',
+          padding: '2rem',
+          boxShadow: '0 4px 15px rgba(0,0,0,0.15)',
+          textAlign: 'center',
         }}
       >
         <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#DAA520' }}>
@@ -44,10 +35,11 @@ function App() {
         </h1>
         <p
           style={{
-            fontSize: '1.5rem',
-            fontWeight: 'bold',
+            fontSize: '1.3rem',
+            fontWeight: '600',
             color: '#DAA520',
             marginTop: '1rem',
+            marginBottom: '2rem',
           }}
         >
           Bienvenido. Te ayudamos a descubrir qué energía complementa la tuya para lograr equilibrio emocional.
@@ -56,8 +48,6 @@ function App() {
         <BienvenidaConBotones />
       </div>
     </div>
-
-    </>
   );
 }
 

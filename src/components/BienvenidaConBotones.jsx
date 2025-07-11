@@ -66,27 +66,29 @@ export default function BienvenidaConBotones() {
 
 const styles = {
   section: {
-    width: '100%',
-    maxWidth: '700px',
+    width: '60%',
+    maxWidth: '750px', // un pelito más ancho
     margin: '1rem auto 0 auto',
-    padding: '1.5rem',
-    backgroundColor: '#fff',
-    borderRadius: '8px',
-    boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
+    padding: '2rem',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)', // más suave sobre el fondo
+    borderRadius: '12px',
+    boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
     textAlign: 'center',
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     color: '#333',
   },
 
   parrafoDestacado: {
-    fontSize: '1.125rem', // ≈ 18px
+    fontSize: '1.25rem', // más legible
     marginBottom: '1rem',
+    fontWeight: '600',
+    color: '#DAA520', // dorado para destacar
   },
 
   parrafo: {
-    fontSize: '1rem',
+    fontSize: '1.05rem',
     marginBottom: '1rem',
-    lineHeight: '1.6',
+    lineHeight: '1.7',
   },
 
   parrafoImportante: {
@@ -104,16 +106,17 @@ const styles = {
   },
 
   boton: {
-    padding: '0.75rem 1.25rem',
+    padding: '0.75rem 1.5rem',
     color: '#fff',
     fontWeight: '700',
-    borderRadius: '6px',
+    borderRadius: '8px',
     textDecoration: 'none',
     fontSize: '1rem',
     boxShadow: '0 3px 6px rgba(0,0,0,0.1)',
     transition: 'background-color 0.3s ease',
     cursor: 'pointer',
-    minWidth: '140px', // buen tamaño para móvil
+    minWidth: '140px',
     textAlign: 'center',
+    backgroundColor: '#DAA520', // botón dorado
   },
 };
