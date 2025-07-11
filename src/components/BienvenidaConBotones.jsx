@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import FormularioDeLectura from './FormularioDeLectura';
+import { Link } from 'react-router-dom';
 
 export default function BienvenidaConBotones() {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
@@ -31,6 +32,13 @@ export default function BienvenidaConBotones() {
           <p style={styles.parrafoImportante}>
             📝 Descubrí Astro Mío y armonizá tu energía en el entorno que habitás completando el formulario.
           </p>
+
+          <div style={styles.botonSaberMasContainer}>
+            <Link to="/nota-mi-sol-y-mi-luna" style={styles.botonSaberMas}>
+              Saber más
+            </Link>
+          </div>
+
           <p style={styles.parrafo}>¡Estoy para acompañarte en este camino! ✨</p>
 
           <div style={styles.botonesContainer}>
@@ -121,4 +129,23 @@ const styles = {
     textAlign: 'center',
     backgroundColor: '#DAA520', // botón dorado
   },
+
+  botonSaberMasContainer: {
+    margin: '1.5rem 0',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+
+  botonSaberMas: {
+    backgroundColor: '#DAA520', // dorado
+    color: '#fff',
+    padding: '0.75rem 1.5rem',
+    borderRadius: '8px',
+    fontWeight: '600',
+    textDecoration: 'none',
+    fontSize: '1rem',
+    boxShadow: '0 3px 8px rgba(0, 0, 0, 0.15)',
+    transition: 'background-color 0.3s ease',
+  },
+
 };
