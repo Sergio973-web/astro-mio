@@ -42,7 +42,7 @@ function App() {
             marginBottom: '2rem',
           }}
         >
-          Gracias por interesarte en Astro Mío.
+          
         </p>
 
         <BienvenidaConBotones />

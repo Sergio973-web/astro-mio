@@ -17,7 +17,7 @@ export default function BienvenidaConBotones() {
       {!mostrarFormulario ? (
         <>
           <p style={styles.parrafoDestacado}>
-            ✨ <strong>¡Hola!</strong>✨
+            ✨ <strong>¡Hola! Gracias por visitar Astro Mío.</strong>✨
           </p>
           <p style={styles.parrafo}>
             Cada persona nace con una energía única, y quiero ayudar a descubrirla y armonizarla <span role="img" aria-label="luna y sol">🌙☀</span>
