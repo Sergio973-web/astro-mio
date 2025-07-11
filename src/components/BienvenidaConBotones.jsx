@@ -17,20 +17,21 @@ export default function BienvenidaConBotones() {
       {!mostrarFormulario ? (
         <>
           <p style={styles.parrafoDestacado}>
-            ✨ <strong>¡Hola! ¿Cómo estás!</strong>✨
+            ✨ <strong>¡Hola! Me alegra que estés acá.</strong> ✨
           </p>
           <p style={styles.parrafo}>
-            Cada persona nace con una energía única, y quiero ayudar a descubrirla y armonizarla <span role="img" aria-label="luna y sol">🌙☀</span>
+            Cada persona nace con una energía única. Al momento de nacer, el <strong>Sol y la Luna</strong> estaban ubicados en constelaciones específicas, tal como se veían desde el lugar exacto donde comenzaste tu camino. <span role="img" aria-label="luna y sol">🌙☀</span>
           </p>
           <p style={styles.parrafo}>
-            A partir de tu mapa energético se encuentra la energía que te complementa, clave para lograr equilibrio emocional y armonía en tus vínculos. <span role="img" aria-label="estrella fugaz">💫</span>
+            Esa alineación forma tu <strong>mapa energético</strong>, desde el cual identificamos la energía que te complementa. Este conocimiento es clave para encontrar equilibrio emocional y armonía en tus vínculos. <span role="img" aria-label="estrella fugaz">💫</span>
           </p>
           <p style={styles.parrafo}>
-            A veces esa energía no está en tu entorno, pero te damos herramientas para reconocerla, atraerla o canalizarla — en vínculos, espacios o prácticas personales. <span role="img" aria-label="meditación">🧘🏻‍♀</span>
+            A veces esa energía no está presente en tu entorno, pero con Astro Mío podés <strong>reconocerla, atraerla o canalizarla</strong> a través de vínculos, espacios o prácticas personales. <span role="img" aria-label="meditación">🧘🏻‍♀</span>
           </p>
           <p style={styles.parrafoImportante}>
-            📝 Descubre Astro Mío para Armonizar tu energía en el entorno que vives completando el formulario.</p>
-          <p style={styles.parrafo}>¡Estamos para acompañarte! ✨</p>
+            📝 Descubrí Astro Mío y armonizá tu energía en el entorno que habitás completando el formulario.
+          </p>
+          <p style={styles.parrafo}>¡Estoy para acompañarte en este camino! ✨</p>
 
           <div style={styles.botonesContainer}>
             <a
@@ -61,6 +62,7 @@ export default function BienvenidaConBotones() {
         <FormularioDeLectura onVolver={handleVolver} />
       )}
     </section>
+
   );
 }
 
