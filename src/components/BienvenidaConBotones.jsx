@@ -76,7 +76,7 @@ export default function BienvenidaConBotones() {
 
 const styles = {
   section: {
-    width: '85%',
+    width: '95%',
     maxWidth: '800px',
     margin: '1rem auto 0 auto',
     padding: '2rem',
@@ -87,7 +87,7 @@ const styles = {
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     color: '#333',
     position: 'relative',
-    left: '-100px' // mueve hacia la izquierda
+    left: '-300px' // mueve hacia la izquierda
   }
 
 
