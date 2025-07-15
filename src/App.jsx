@@ -52,7 +52,9 @@ function App() {
           <Routes>
             <Route path="/" element={<BienvenidaConBotones />} />
             <Route path="/nota-mi-sol-y-mi-luna" element={<NotaMiSolYLuna />} />
+            <Route path="/formulario" element={<FormularioDeLectura />} /> {/* NUEVA RUTA */}
           </Routes>
+
         </div>
       </div>
     </BrowserRouter>

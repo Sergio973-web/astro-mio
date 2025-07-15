@@ -165,32 +165,52 @@ export default function NotaMiSolYLuna() {
         🌙 ¿Querés descubrir tu Luna? Ingresá tu fecha y hora de nacimiento y encontrá tu energía complementaria. ¡Te vas a sorprender!
       </p>
 
-      
+     
+     <input
+      type="datetime-local"
+      value={fecha}
+      onChange={(e) => setFecha(e.target.value)}
+      style={styles.input}
+      aria-label="Fecha y hora de nacimiento"
+    />
 
-      <input
-        type="datetime-local"
-        value={fecha}
-        onChange={(e) => setFecha(e.target.value)}
-        style={styles.input}
-        aria-label="Fecha y hora de nacimiento"
-      />
+    <button
+      onClick={consultarLuna}
+      style={styles.botonConsultar}
+      disabled={loading}
+    >
+      {loading ? 'Consultando tu Luna... esperá un momento ✨' : 'Descubrí tu Luna'}
+    </button>
 
-      <button
-        onClick={consultarLuna}
-        style={styles.botonConsultar}
-        disabled={loading}
-      >
-        {loading ? 'Consultando tu Luna...' : 'Descubrí tu Luna'}
-      </button>
-      
-      {resultado && <pre style={styles.resultado}>{resultado}</pre>}
-    
-      <button
-        onClick={() => navigate(-1)}
-        style={styles.botonVolver}
-      >
-        Volver
-      </button>
+    {resultado && (
+      <>
+        <pre style={styles.resultado}>{resultado}</pre>
+
+        <p style={styles.parrafo}>
+          🌟 Si te gustó descubrir tu Luna y querés saber más sobre tu energía complementaria,
+          te invitamos a completar el siguiente formulario.
+        </p>
+
+        <button
+          onClick={() => navigate('/formulario')}
+          style={{
+            ...styles.botonConsultar,
+            backgroundColor: '#007BFF', // Azul distinto para el botón del formulario
+            marginTop: '1rem',
+          }}
+        >
+          Ir al formulario
+        </button>
+      </>
+    )}
+
+    <button
+      onClick={() => navigate(-1)}
+      style={styles.botonVolver}
+    >
+      Volver
+    </button>
+
     </div>
   );
 }
