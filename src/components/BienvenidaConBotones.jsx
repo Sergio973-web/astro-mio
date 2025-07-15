@@ -87,8 +87,8 @@ const styles = {
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     color: '#333',
     position: 'relative',
-    left: '-300px' // mueve hacia la izquierda
-  }
+    left: '-100px', // mueve hacia la izquierda
+  },
 
 
   parrafoDestacado: {
