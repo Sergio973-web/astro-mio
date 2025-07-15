@@ -165,13 +165,7 @@ export default function NotaMiSolYLuna() {
         🌙 ¿Querés descubrir tu Luna? Ingresá tu fecha y hora de nacimiento y encontrá tu energía complementaria. ¡Te vas a sorprender!
       </p>
 
-      <button
-        onClick={consultarLuna}
-        style={styles.botonConsultar}
-        disabled={loading}
-      >
-        {loading ? 'Consultando tu Luna...' : 'Descubrí tu Luna'}
-      </button>
+      
 
       <input
         type="datetime-local"
@@ -181,8 +175,16 @@ export default function NotaMiSolYLuna() {
         aria-label="Fecha y hora de nacimiento"
       />
 
+      <button
+        onClick={consultarLuna}
+        style={styles.botonConsultar}
+        disabled={loading}
+      >
+        {loading ? 'Consultando tu Luna...' : 'Descubrí tu Luna'}
+      </button>
+      
       {resultado && <pre style={styles.resultado}>{resultado}</pre>}
-
+    
       <button
         onClick={() => navigate(-1)}
         style={styles.botonVolver}
