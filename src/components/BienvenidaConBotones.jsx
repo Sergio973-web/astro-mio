@@ -76,7 +76,7 @@ export default function BienvenidaConBotones() {
 
 const styles = {
   section: {
-  width: '95%',
+  width: '100%',
   maxWidth: '800px',
   margin: '1rem auto 0 auto',
   padding: '2rem',
@@ -86,7 +86,7 @@ const styles = {
   textAlign: 'center',
   fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
   color: '#333',
-  transform: 'translateX(-18px)', // más confiable visualmente
+  transform: 'translateX(-21px)', // más confiable visualmente
 },
 
 
