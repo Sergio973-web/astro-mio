@@ -86,7 +86,7 @@ const styles = {
   textAlign: 'center',
   fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
   color: '#333',
-  transform: 'translateX(-10px)', // más confiable visualmente
+  transform: 'translateX(-18px)', // más confiable visualmente
 },
 
 
