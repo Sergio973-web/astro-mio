@@ -76,19 +76,19 @@ export default function BienvenidaConBotones() {
 
 const styles = {
   section: {
-    width: '95%',
-    maxWidth: '800px',
-    margin: '1rem auto 0 auto',
-    padding: '2rem',
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderRadius: '12px',
-    boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
-    textAlign: 'center',
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-    color: '#333',
-    position: 'relative',
-    left: '-100px', // mueve hacia la izquierda
-  },
+  width: '95%',
+  maxWidth: '800px',
+  margin: '1rem auto 0 auto',
+  padding: '2rem',
+  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  borderRadius: '12px',
+  boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
+  textAlign: 'center',
+  fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+  color: '#333',
+  transform: 'translateX(-300px)', // más confiable visualmente
+},
+
 
 
   parrafoDestacado: {
