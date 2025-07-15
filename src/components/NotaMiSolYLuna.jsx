@@ -158,7 +158,7 @@ export default function NotaMiSolYLuna() {
         style={styles.botonConsultar}
         disabled={loading}
       >
-        {loading ? 'Consultando...' : 'Consultar Fecha equivalente del Sol'}
+        {loading ? 'Consultando...' : 'Consultar Fecha de Tu Luna equivalente al calendario Solar'}
       </button>
 
       {resultado && <pre style={styles.resultado}>{resultado}</pre>}
