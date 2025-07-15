@@ -87,46 +87,56 @@ export default function NotaMiSolYLuna() {
   const [loading, setLoading] = useState(false);
 
   const consultarLuna = async () => {
-    if (!fecha) {
-      alert('Por favor selecciona una fecha y hora.');
-      return;
+  if (!fecha) {
+    alert('Por favor selecciona una fecha y hora.');
+    return;
+  }
+
+  setLoading(true);
+  setResultado('');
+
+  try {
+    const response = await fetch('https://astro-mio-backend.onrender.com/api/luna', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fecha: fecha,
+        tolerancia: '10',
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.error) {
+      setResultado(`Error: ${data.error}`);
+    } else if (data.orbitas && data.orbitas.length > 0) {
+      const orbita = data.orbitas[0];
+
+      const baseDate = new Date(orbita.sol_equivalente);
+
+      // Crear rango de 8 días antes y después
+      const desde = new Date(baseDate);
+      desde.setDate(baseDate.getDate() - 8);
+
+      const hasta = new Date(baseDate);
+      hasta.setDate(baseDate.getDate() + 8);
+
+      // Formatear las fechas sin año (ej: "6 de marzo")
+      const opciones = { day: 'numeric', month: 'long' };
+      const fechaDesde = desde.toLocaleDateString('es-AR', opciones);
+      const fechaHasta = hasta.toLocaleDateString('es-AR', opciones);
+
+      setResultado(`🌙 Tu Luna: entre el ${fechaDesde} y el ${fechaHasta}`);
+    } else {
+      setResultado('No se encontraron órbitas para esa fecha.');
     }
+  } catch (error) {
+    setResultado(`Error en la consulta: ${error.message}`);
+  } finally {
+    setLoading(false);
+  }
+};
 
-    setLoading(true);
-    setResultado('');
-
-    try {
-      const response = await fetch('https://astro-mio-backend.onrender.com/api/luna', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          fecha: fecha,
-          tolerancia: '10',
-        }),
-      });
-
-      const data = await response.json();
-
-      if (data.error) {
-        setResultado(`Error: ${data.error}`);
-      } else if (data.orbitas && data.orbitas.length > 0) {
-        const orbita = data.orbitas[0];
-        const fechaLuna = formatearSinAnio(orbita.fecha);
-        const fechaSol = formatearSinAnio(orbita.sol_equivalente);
-
-        setResultado(
-          `🌙 Tu Luna: ${fechaSol}`
-          
-        );
-      } else {
-        setResultado('No se encontraron órbitas para esa fecha.');
-      }
-    } catch (error) {
-      setResultado(`Error en la consulta: ${error.message}`);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const formatearSinAnio = (fechaISO) => {
     const fecha = new Date(fechaISO);
@@ -159,7 +169,6 @@ export default function NotaMiSolYLuna() {
       >
         {loading ? 'Consultando tu Luna...' : 'Descubrí tu Luna'}
       </button>
-
 
       <input
         type="datetime-local"
