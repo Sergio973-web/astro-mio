@@ -14,6 +14,7 @@ const styles = {
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     color: '#333',
     lineHeight: '1.6',
+    transform: 'translateX(-25px)',
   },
   titulo: {
     fontSize: '2rem',
