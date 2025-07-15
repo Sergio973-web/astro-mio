@@ -77,16 +77,17 @@ export default function BienvenidaConBotones() {
 const styles = {
   section: {
     width: '85%',
-    maxWidth: '800px', // un pelito más ancho
+    maxWidth: '800px',
     margin: '1rem auto 0 auto',
     padding: '2rem',
-    backgroundColor: 'rgba(255, 255, 255, 0.9)', // más suave sobre el fondo
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderRadius: '12px',
     boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
     textAlign: 'center',
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     color: '#333',
-  },
+    transform: 'translateX(-40px)' // mueve 40px hacia la izquierda
+  }
 
   parrafoDestacado: {
     fontSize: '1.25rem', // más legible
