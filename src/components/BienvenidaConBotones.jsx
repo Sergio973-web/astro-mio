@@ -76,7 +76,7 @@ export default function BienvenidaConBotones() {
 
 const styles = {
   section: {
-    width: '60%',
+    width: '75%',
     maxWidth: '750px', // un pelito más ancho
     margin: '1rem auto 0 auto',
     padding: '2rem',
