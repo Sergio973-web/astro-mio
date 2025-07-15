@@ -86,8 +86,10 @@ const styles = {
     textAlign: 'center',
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     color: '#333',
-    transform: 'translateX(-10px)' // mueve 40px hacia la izquierda
+    position: 'relative',
+    left: '-40px' // mueve hacia la izquierda
   }
+
 
   parrafoDestacado: {
     fontSize: '1.25rem', // más legible
