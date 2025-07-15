@@ -5,7 +5,7 @@ const styles = {
   contenedor: {
     width: '95%',
     maxWidth: '900px',
-    margin: '2rem auto',
+    margin: '1rem auto',
     padding: '2rem',
     backgroundColor: '#fff',
     borderRadius: '12px',
@@ -20,7 +20,7 @@ const styles = {
     fontWeight: 'bold',
     marginBottom: '1.5rem',
     textAlign: 'center',
-    color: '#DAA520', // dorado
+    color: '#DAA520',
   },
   parrafo: {
     fontSize: '1.1rem',
@@ -102,7 +102,6 @@ export default function NotaMiSolYLuna() {
         body: JSON.stringify({
           fecha: fecha,
           tolerancia: '10',
-          sexo: '', // Puedes agregar un selector si quieres enviar esto
         }),
       });
 
@@ -112,12 +111,12 @@ export default function NotaMiSolYLuna() {
         setResultado(`Error: ${data.error}`);
       } else if (data.orbitas && data.orbitas.length > 0) {
         const orbita = data.orbitas[0];
+        const fechaLuna = formatearSinAnio(orbita.fecha);
+        const fechaSol = formatearSinAnio(orbita.sol_equivalente);
+
         setResultado(
-          `Fecha Luna: ${orbita.fecha}\n` +
-          `Ascensión Recta: ${orbita.luna.ascension_recta}\n` +
-          `Declinación: ${orbita.luna.declinacion}\n` +
-          `Fecha equivalente del Sol: ${orbita.sol_equivalente}\n` +
-          `Interpretación: ${orbita.interpretacion || 'N/A'}`
+          `🌙 Tu Luna: ${fechaSol}`
+          
         );
       } else {
         setResultado('No se encontraron órbitas para esa fecha.');
@@ -129,6 +128,14 @@ export default function NotaMiSolYLuna() {
     }
   };
 
+  const formatearSinAnio = (fechaISO) => {
+    const fecha = new Date(fechaISO);
+    return fecha.toLocaleDateString('es-AR', {
+      day: 'numeric',
+      month: 'long',
+    });
+  };
+
   return (
     <div style={styles.contenedor}>
       <h1 style={styles.titulo}>¿Qué es tu Sol y tu Luna?</h1>
@@ -138,12 +145,21 @@ export default function NotaMiSolYLuna() {
       </p>
 
       <p style={styles.parrafo}>
-        🌙 <strong>Tu Luna</strong> es el día en que el Sol se encuentra en la misma posición en la que estaba la Luna al momento de tu nacimiento.
+        🌙 <strong>Tu Luna</strong> representa la posición en el cielo donde estaba la Luna en el momento exacto de tu nacimiento. Esta energía lunar influye en tu mundo emocional, tu sensibilidad, tus reacciones más íntimas y cómo te conectás con los demás a nivel afectivo.
       </p>
 
       <p style={styles.parrafo}>
-        🎯 <strong>Objetivo:</strong> encontrar el complemento a tu energía y lograr que las relaciones con los demás perduren en el tiempo.
+        🌙 ¿Querés descubrir tu Luna? Ingresá tu fecha y hora de nacimiento y encontrá tu energía complementaria. ¡Te vas a sorprender!
       </p>
+
+      <button
+        onClick={consultarLuna}
+        style={styles.botonConsultar}
+        disabled={loading}
+      >
+        {loading ? 'Consultando tu Luna...' : 'Descubrí tu Luna'}
+      </button>
+
 
       <input
         type="datetime-local"
@@ -153,18 +169,10 @@ export default function NotaMiSolYLuna() {
         aria-label="Fecha y hora de nacimiento"
       />
 
-      <button
-        onClick={consultarLuna}
-        style={styles.botonConsultar}
-        disabled={loading}
-      >
-        {loading ? 'Consultando...' : 'Consultar Fecha de Tu Luna equivalente al calendario Solar'}
-      </button>
-
       {resultado && <pre style={styles.resultado}>{resultado}</pre>}
 
       <button
-        onClick={() => navigate(-1)} // Volver a la página anterior
+        onClick={() => navigate(-1)}
         style={styles.botonVolver}
       >
         Volver
