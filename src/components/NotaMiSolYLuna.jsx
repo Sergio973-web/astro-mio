@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 const styles = {
   contenedor: {
-    maxWidth: '800px',
+    width: '95%',
+    maxWidth: '900px',
     margin: '2rem auto',
     padding: '2rem',
     backgroundColor: '#fff',
