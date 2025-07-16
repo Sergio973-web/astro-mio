@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function FormularioDeLectura({ onVolver }) {
+export default function FormularioDeLectura() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     nombre: '',
     lugarNacimiento: '',
@@ -85,7 +88,7 @@ export default function FormularioDeLectura({ onVolver }) {
 
           <div style={styles.botonesForm}>
             <button type="submit" style={styles.botonEnviar}>Enviar por WhatsApp</button>
-            <button type="button" onClick={onVolver} style={styles.botonVolver}>Volver</button>
+            <button type="button" onClick={() => navigate(-1)} style={styles.botonVolver}>Volver</button>
           </div>
         </form>
       ) : (
