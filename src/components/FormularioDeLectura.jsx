@@ -16,7 +16,7 @@ export default function FormularioDeLectura() {
     comentarioAdicional: '',
   });
 
-  const [formEnviado, setFormEnviado] = useState(false); // NUEVO
+  const [formEnviado, setFormEnviado] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,7 +29,6 @@ export default function FormularioDeLectura() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validación mínima
     for (const key in formData) {
       if (key !== 'comentarioAdicional' && formData[key].trim() === '') {
         alert('Por favor completá todos los campos obligatorios.');
@@ -57,7 +56,6 @@ export default function FormularioDeLectura() {
     const whatsappURL = `https://wa.me/5492302419786?text=${encodeURIComponent(mensaje)}`;
     window.open(whatsappURL, '_blank');
 
-    // Mostrar botón de pago
     setFormEnviado(true);
   };
 
@@ -67,7 +65,6 @@ export default function FormularioDeLectura() {
 
       {!formEnviado ? (
         <form onSubmit={handleSubmit} style={styles.form}>
-          {/* Campos */}
           <Campo label="¿Cuál es tu nombre?" name="nombre" value={formData.nombre} onChange={handleChange} />
           <Campo label="Lugar de Nacimiento (ciudad, provincia, país)" name="lugarNacimiento" value={formData.lugarNacimiento} onChange={handleChange} />
           <Campo type="date" label="¿Cuál es tu fecha de nacimiento?" name="fechaNacimiento" value={formData.fechaNacimiento} onChange={handleChange} />
@@ -76,6 +73,7 @@ export default function FormularioDeLectura() {
           <Campo label="Lugar de nacimiento de la persona" name="lugarNacimientoPersona" value={formData.lugarNacimientoPersona} onChange={handleChange} />
           <Campo type="date" label="Fecha de nacimiento de la persona" name="fechaNacimientoPersona" value={formData.fechaNacimientoPersona} onChange={handleChange} />
           <Campo type="time" label="Hora de nacimiento de la persona" name="horaNacimientoPersona" value={formData.horaNacimientoPersona} onChange={handleChange} />
+          
           <div style={styles.formGroup}>
             <label>¿Querés agregar algún comentario adicional?</label>
             <textarea name="comentarioAdicional" value={formData.comentarioAdicional} onChange={handleChange} rows="4" />
@@ -83,7 +81,7 @@ export default function FormularioDeLectura() {
 
           <p style={styles.costo}>
             💰 El valor es de <strong>$25.000</strong><br />
-               Al enviar los datos se genera el link de pago.
+            Al enviar los datos se genera el link de pago.
           </p>
 
           <div style={styles.botonesForm}>
@@ -91,7 +89,7 @@ export default function FormularioDeLectura() {
             <button
               type="button"
               onClick={() => {
-                if (window.history.length > 1) {
+                if (window.history.length > 2) {
                   navigate(-1);
                 } else {
                   navigate('/');
@@ -102,7 +100,6 @@ export default function FormularioDeLectura() {
               Volver
             </button>
           </div>
-
         </form>
       ) : (
         <div style={{ textAlign: 'center' }}>
@@ -127,7 +124,7 @@ export default function FormularioDeLectura() {
   );
 }
 
-// COMPONENTE REUTILIZABLE PARA CAMPOS
+// COMPONENTE CAMPO REUTILIZABLE
 function Campo({ label, name, value, onChange, type = "text" }) {
   return (
     <div style={styles.formGroup}>
