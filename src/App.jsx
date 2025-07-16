@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import fondo from './assets/fondo.png';
 import BienvenidaConBotones from './components/BienvenidaConBotones';
 import NotaMiSolYLuna from './components/NotaMiSolYLuna';
+import FormularioDeLectura from './components/FormularioDeLectura'; 
 
 function App() {
   return (
