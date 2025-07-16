@@ -91,7 +91,7 @@ export default function FormularioDeLectura() {
             <button
               type="button"
               onClick={() => {
-                if (window.history.length > 2) {
+                if (window.history.length > 1) {
                   navigate(-1);
                 } else {
                   navigate('/');
@@ -101,8 +101,8 @@ export default function FormularioDeLectura() {
             >
               Volver
             </button>
-
           </div>
+
         </form>
       ) : (
         <div style={{ textAlign: 'center' }}>
