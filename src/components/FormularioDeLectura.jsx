@@ -88,12 +88,17 @@ export default function FormularioDeLectura() {
             <button type="submit" style={styles.botonEnviar}>Enviar por WhatsApp</button>
             <button
               type="button"
-              onClick={() => navigate('/')}
+              onClick={() => {
+                if (window.history.length > 2) {
+                  navigate(-1);
+                } else {
+                  navigate('/');
+                }
+              }}
               style={styles.botonVolver}
             >
               Volver
             </button>
-
           </div>
         </form>
       ) : (
