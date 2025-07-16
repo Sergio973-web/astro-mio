@@ -89,7 +89,7 @@ export default function FormularioDeLectura() {
             <button
               type="button"
               onClick={() => {
-                if (window.history.length > 2) {
+                if (window.history.length > 1) {
                   navigate(-1);
                 } else {
                   navigate('/');
