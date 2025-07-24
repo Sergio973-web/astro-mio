@@ -88,6 +88,7 @@ export default function NotaMiSolYLuna() {
   const [fecha, setFecha] = useState('');
   const [resultado, setResultado] = useState('');
   const [loading, setLoading] = useState(false);
+  const [likeDado, setLikeDado] = useState(false); // Nuevo estado para el like
 
   const consultarLuna = async () => {
     if (!fecha) {
@@ -97,6 +98,7 @@ export default function NotaMiSolYLuna() {
 
     setLoading(true);
     setResultado('');
+    setLikeDado(false); // Reiniciar el like en nueva consulta
 
     try {
       const response = await fetch('https://astro-mio-backend.onrender.com/api/luna', {
@@ -117,14 +119,12 @@ export default function NotaMiSolYLuna() {
 
         const baseDate = new Date(orbita.sol_equivalente);
 
-        // Rango 8 días antes y 8 después
         const desde = new Date(baseDate);
         desde.setDate(baseDate.getDate() - 8);
 
         const hasta = new Date(baseDate);
         hasta.setDate(baseDate.getDate() + 8);
 
-        // Formatear sin año (ej: "6 de marzo")
         const opciones = { day: 'numeric', month: 'long' };
         const fechaDesde = desde.toLocaleDateString('es-AR', opciones);
         const fechaHasta = hasta.toLocaleDateString('es-AR', opciones);
@@ -133,7 +133,6 @@ export default function NotaMiSolYLuna() {
 
         setResultado(resultadoTexto);
 
-        // Guardar en Firebase
         push(ref(db, 'consultas_luna'), {
           fechaNacimiento: fecha,
           fechaConsulta: new Date().toISOString(),
@@ -149,12 +148,24 @@ export default function NotaMiSolYLuna() {
     }
   };
 
+  const darLike = () => {
+    if (likeDado) return;
+
+    push(ref(db, 'likes_luna'), {
+      fechaNacimiento: fecha,
+      fechaConsulta: new Date().toISOString(),
+      like: true,
+    });
+
+    setLikeDado(true);
+  };
+
   return (
     <div style={styles.contenedor}>
       <h1 style={styles.titulo}>¿Qué es tu Sol y tu Luna?</h1>
 
       <p style={styles.parrafo}>
-        🌞 <strong>Tu Sol</strong> representa el día de tu cumpleaños y está ubicado en una constelación específica en ese momento. Esta posición indica tu identidad básica, tu esencia y cómo te muestras al mundo, según el calendario astrológico.
+        🌞 <strong>Tu Sol</strong> representa el día de tu cumpleaños y está ubicado en una constelación específica en ese momento. Esta posición indica tu identidad básica, tu esencia y cómo te mostrás al mundo, según el calendario astrológico.
       </p>
 
       <p style={styles.parrafo}>
@@ -165,52 +176,68 @@ export default function NotaMiSolYLuna() {
         🌙 ¿Querés descubrir tu Luna? Ingresá tu fecha y hora de nacimiento y encontrá tu energía complementaria. ¡Te vas a sorprender!
       </p>
 
-     
-     <input
-      type="datetime-local"
-      value={fecha}
-      onChange={(e) => setFecha(e.target.value)}
-      style={styles.input}
-      aria-label="Fecha y hora de nacimiento"
-    />
+      <input
+        type="datetime-local"
+        value={fecha}
+        onChange={(e) => setFecha(e.target.value)}
+        style={styles.input}
+        aria-label="Fecha y hora de nacimiento"
+      />
 
-    <button
-      onClick={consultarLuna}
-      style={styles.botonConsultar}
-      disabled={loading}
-    >
-      {loading ? 'Consultando tu Luna... esperá un momento ✨' : 'Descubrí tu Luna'}
-    </button>
+      <button
+        onClick={consultarLuna}
+        style={styles.botonConsultar}
+        disabled={loading}
+      >
+        {loading ? 'Consultando tu Luna... esperá un momento ✨' : 'Descubrí tu Luna'}
+      </button>
 
-    {resultado && (
-      <>
-        <pre style={styles.resultado}>{resultado}</pre>
+      {resultado && (
+        <>
+          <pre style={styles.resultado}>{resultado}</pre>
 
-        <p style={styles.parrafo}>
-          🌟 Si te gustó descubrir tu Luna y querés saber más sobre tu energía complementaria,
-          te invitamos a completar el siguiente formulario.
-        </p>
+          {!likeDado && (
+            <button
+              onClick={darLike}
+              style={{
+                ...styles.botonConsultar,
+                backgroundColor: '#e91e63',
+              }}
+            >
+              ✨ ¡Coincide con alguien cercano! Regalá un like 💖
+            </button>
+          )}
 
-        <button
-          onClick={() => navigate('/formulario')}
-          style={{
-            ...styles.botonConsultar,
-            backgroundColor: '#007BFF', // Azul distinto para el botón del formulario
-            marginTop: '1rem',
-          }}
-        >
-          Ir al formulario
-        </button>
-      </>
-    )}
+          {likeDado && (
+            <p style={{ textAlign: 'center', color: '#e91e63', fontWeight: 'bold' }}>
+              ¡Gracias por tu like! 💖
+            </p>
+          )}
 
-    <button
-      onClick={() => navigate(-1)}
-      style={styles.botonVolver}
-    >
-      Volver
-    </button>
+          <p style={styles.parrafo}>
+            🌟 Si te gustó descubrir tu Luna y querés saber más sobre tu energía complementaria,
+            te invitamos a completar el siguiente formulario.
+          </p>
 
+          <button
+            onClick={() => navigate('/formulario')}
+            style={{
+              ...styles.botonConsultar,
+              backgroundColor: '#007BFF',
+              marginTop: '1rem',
+            }}
+          >
+            Ir al formulario
+          </button>
+        </>
+      )}
+
+      <button
+        onClick={() => navigate(-1)}
+        style={styles.botonVolver}
+      >
+        Volver
+      </button>
     </div>
   );
 }
