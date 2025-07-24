@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { db } from '../firebase';
-import { ref, push } from 'firebase/database';
+import { ref, push, onValue } from 'firebase/database';
 
 const styles = {
   contenedor: {
@@ -88,7 +88,20 @@ export default function NotaMiSolYLuna() {
   const [fecha, setFecha] = useState('');
   const [resultado, setResultado] = useState('');
   const [loading, setLoading] = useState(false);
-  const [likeDado, setLikeDado] = useState(false); // Nuevo estado para el like
+  const [likeDado, setLikeDado] = useState(false);
+  const [totalLikes, setTotalLikes] = useState(0); // Contador de likes
+
+  // Escuchar likes en tiempo real
+  useEffect(() => {
+    const likesRef = ref(db, 'likes_luna');
+    const unsubscribe = onValue(likesRef, (snapshot) => {
+      const data = snapshot.val();
+      const cantidad = data ? Object.keys(data).length : 0;
+      setTotalLikes(cantidad);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const consultarLuna = async () => {
     if (!fecha) {
@@ -98,7 +111,7 @@ export default function NotaMiSolYLuna() {
 
     setLoading(true);
     setResultado('');
-    setLikeDado(false); // Reiniciar el like en nueva consulta
+    setLikeDado(false);
 
     try {
       const response = await fetch('https://astro-mio-backend.onrender.com/api/luna', {
@@ -213,6 +226,10 @@ export default function NotaMiSolYLuna() {
               ¡Gracias por tu like! 💖
             </p>
           )}
+
+          <p style={{ textAlign: 'center', fontSize: '0.95rem', color: '#555' }}>
+            💗 {totalLikes} personas ya dieron like a su Luna ✨
+          </p>
 
           <p style={styles.parrafo}>
             🌟 Si te gustó descubrir tu Luna y querés saber más sobre tu energía complementaria,
