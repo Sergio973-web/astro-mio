@@ -120,12 +120,14 @@ export default function NotaMiSolYLuna() {
       } else if (data.orbitas && data.orbitas.length > 0) {
         const orbita = data.orbitas[0];
 
-        const baseDate = new Date(orbita.fecha);
+        // Interpretamos la fecha como UTC
+        const baseDate = new Date(orbita.fecha + 'Z');
+
         const desde = new Date(baseDate);
-        desde.setDate(baseDate.getDate() - 3);
+        desde.setUTCDate(baseDate.getUTCDate() - 3);
 
         const hasta = new Date(baseDate);
-        hasta.setDate(baseDate.getDate() + 3);
+        hasta.setUTCDate(baseDate.getUTCDate() + 3);
 
         const opciones = { day: 'numeric', month: 'long' };
         const fechaDesde = desde.toLocaleDateString('es-AR', opciones);
@@ -142,6 +144,7 @@ export default function NotaMiSolYLuna() {
       } else {
         setResultado('No se encontraron órbitas para esa fecha.');
       }
+
     } catch (error) {
       setResultado(`Error en la consulta: ${error.message}`);
     } finally {
