@@ -61,9 +61,8 @@ export default function NotaMiSolYLuna() {
 
         // Convertir la fecha recibida a formato ISO seguro
         let fechaBase;
-        if (orbita.fecha_luna) {
-          // Reemplaza espacio por T para que JS la interprete bien
-          fechaBase = new Date(orbita.fecha_luna.replace(' ', 'T') + 'Z');
+        if (orbita.fecha) {
+          fechaBase = new Date(orbita.fecha + 'T00:00:00Z');
         } else {
           fechaBase = new Date();
         }
