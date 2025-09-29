@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { db } from '../firebase';
-import { ref, push, onValue } from 'firebase/database';
+import { ref, push } from 'firebase/database';
 
 const styles = {
   contenedor: {
@@ -39,7 +39,6 @@ const styles = {
     fontWeight: '600',
     fontSize: '1rem',
     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-    transition: 'background-color 0.3s ease',
     display: 'block',
     margin: '2rem auto 0 auto',
     width: 'fit-content',
@@ -51,7 +50,7 @@ const styles = {
     fontSize: '1rem',
     borderRadius: '6px',
     border: '1px solid #ccc',
-    width: '200px',
+    width: '250px',
   },
   botonConsultar: {
     backgroundColor: '#4CAF50',
@@ -73,7 +72,7 @@ const styles = {
     padding: '1rem',
     borderRadius: '8px',
     border: '1px solid #ddd',
-    maxWidth: '400px',
+    maxWidth: '500px',
     marginLeft: 'auto',
     marginRight: 'auto',
     whiteSpace: 'pre-wrap',
@@ -86,22 +85,11 @@ export default function NotaMiSolYLuna() {
   const navigate = useNavigate();
 
   const [fecha, setFecha] = useState('');
+  const [ubicacion, setUbicacion] = useState('');
   const [resultado, setResultado] = useState('');
+  const [resultadoSolar, setResultadoSolar] = useState('');
   const [loading, setLoading] = useState(false);
   const [likeDado, setLikeDado] = useState(false);
-  const [totalLikes, setTotalLikes] = useState(0); // Contador de likes
-
-  // Escuchar likes en tiempo real
-  useEffect(() => {
-    const likesRef = ref(db, 'likes_luna');
-    const unsubscribe = onValue(likesRef, (snapshot) => {
-      const data = snapshot.val();
-      const cantidad = data ? Object.keys(data).length : 0;
-      setTotalLikes(cantidad);
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   const consultarLuna = async () => {
     if (!fecha) {
@@ -111,6 +99,7 @@ export default function NotaMiSolYLuna() {
 
     setLoading(true);
     setResultado('');
+    setResultadoSolar('');
     setLikeDado(false);
 
     try {
@@ -120,6 +109,7 @@ export default function NotaMiSolYLuna() {
         body: JSON.stringify({
           fecha: fecha,
           tolerancia: '10',
+          ubicacion: ubicacion,
         }),
       });
 
@@ -130,20 +120,18 @@ export default function NotaMiSolYLuna() {
       } else if (data.orbitas && data.orbitas.length > 0) {
         const orbita = data.orbitas[0];
 
-        const baseDate = new Date(orbita.sol_equivalente);
-
+        const baseDate = new Date(orbita.fecha);
         const desde = new Date(baseDate);
-        desde.setDate(baseDate.getDate() - 8);
+        desde.setDate(baseDate.getDate() - 3);
 
         const hasta = new Date(baseDate);
-        hasta.setDate(baseDate.getDate() + 8);
+        hasta.setDate(baseDate.getDate() + 3);
 
         const opciones = { day: 'numeric', month: 'long' };
         const fechaDesde = desde.toLocaleDateString('es-AR', opciones);
         const fechaHasta = hasta.toLocaleDateString('es-AR', opciones);
 
         const resultadoTexto = `🌙 Tu Luna: entre el ${fechaDesde} y el ${fechaHasta}`;
-
         setResultado(resultadoTexto);
 
         push(ref(db, 'consultas_luna'), {
@@ -158,6 +146,35 @@ export default function NotaMiSolYLuna() {
       setResultado(`Error en la consulta: ${error.message}`);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const consultarLunaSolar = async () => {
+    setResultadoSolar('Buscando coincidencias con tu Sol natal...');
+
+    try {
+      const response = await fetch('https://astro-mio-backend.onrender.com/api/luna-solar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fecha: fecha,
+          tolerancia: '7',
+          ubicacion: ubicacion,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.error) {
+        setResultadoSolar(`Error: ${data.error}`);
+      } else {
+        const coincidencias = data.coincidencias.map((item) => `🌕 ${item.fecha}`).join('\n');
+        setResultadoSolar(
+          `✨ La Luna volverá a alinearse con tu Sol natal (±7°):\n\n${coincidencias || 'No se encontraron coincidencias'}`
+        );
+      }
+    } catch (error) {
+      setResultadoSolar(`Error al consultar coincidencias solares: ${error.message}`);
     }
   };
 
@@ -178,15 +195,15 @@ export default function NotaMiSolYLuna() {
       <h1 style={styles.titulo}>¿Qué es tu Sol y tu Luna?</h1>
 
       <p style={styles.parrafo}>
-        🌞 <strong>Tu Sol</strong> representa el día de tu cumpleaños y está ubicado en una constelación específica en ese momento. Esta posición indica tu identidad básica, tu esencia y cómo te mostrás al mundo, según el calendario astrológico.
+        🌞 <strong>Tu Sol</strong> representa el día de tu cumpleaños y está ubicado en una constelación específica en ese momento. Esta posición indica tu identidad básica, tu esencia y cómo te mostrás al mundo.
       </p>
 
       <p style={styles.parrafo}>
-        🌙 <strong>Tu Luna</strong> representa la posición en el cielo donde estaba la Luna en el momento exacto de tu nacimiento. Esta energía lunar influye en tu mundo emocional, tu sensibilidad, tus reacciones más íntimas y cómo te conectás con los demás a nivel afectivo.
+        🌙 <strong>Tu Luna</strong> representa la posición en el cielo donde estaba la Luna en el momento exacto de tu nacimiento. Esta energía lunar influye en tu mundo emocional y cómo te conectás con los demás a nivel afectivo.
       </p>
 
       <p style={styles.parrafo}>
-        🌙 ¿Querés descubrir tu Luna? Ingresá tu fecha y hora de nacimiento y encontrá tu energía complementaria. ¡Te vas a sorprender!
+        🌙 ¿Querés descubrir tu Luna? Ingresá tu fecha y hora de nacimiento y encontrá tu energía complementaria.
       </p>
 
       <input
@@ -197,12 +214,20 @@ export default function NotaMiSolYLuna() {
         aria-label="Fecha y hora de nacimiento"
       />
 
+      <input
+        type="text"
+        value={ubicacion}
+        onChange={(e) => setUbicacion(e.target.value)}
+        placeholder="Ciudad de nacimiento (opcional)"
+        style={styles.input}
+      />
+
       <button
         onClick={consultarLuna}
         style={styles.botonConsultar}
         disabled={loading}
       >
-        {loading ? 'Consultando tu Luna... esperá un momento ✨' : 'Descubrí tu Luna'}
+        {loading ? 'Consultando tu Luna... ✨' : 'Descubrí tu Luna'}
       </button>
 
       {resultado && (
@@ -227,10 +252,24 @@ export default function NotaMiSolYLuna() {
             </p>
           )}
 
-          <p style={{ textAlign: 'center', fontSize: '0.95rem', color: '#555' }}>
-            💗 {totalLikes} personas ya dieron like a su Luna ✨
-          </p>
+          <button
+            onClick={consultarLunaSolar}
+            style={{
+              ...styles.botonConsultar,
+              backgroundColor: '#8e44ad',
+            }}
+          >
+            🌙☀️ ¿Cuándo la Luna se alinea con tu Sol?
+          </button>
+        </>
+      )}
 
+      {resultadoSolar && (
+        <pre style={styles.resultado}>{resultadoSolar}</pre>
+      )}
+
+      {resultado && (
+        <>
           <p style={styles.parrafo}>
             🌟 Si te gustó descubrir tu Luna y querés saber más sobre tu energía complementaria,
             te invitamos a completar el siguiente formulario.
