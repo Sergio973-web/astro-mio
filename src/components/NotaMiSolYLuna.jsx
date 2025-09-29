@@ -58,11 +58,19 @@ export default function NotaMiSolYLuna() {
         setResultado(`Error: ${data.error}`);
       } else if (data.orbitas && data.orbitas.length > 0) {
         const orbita = data.orbitas[0];
-        const fechaLuna = orbita.fecha_luna; // viene directo del backend
-        const opciones = { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' };
-        const fechaFormateada = new Date(fechaLuna).toLocaleDateString('es-AR', opciones);
+        let fechaBase = orbita.fecha ? new Date(orbita.fecha + 'T00:00:00Z') : new Date();
+
+        const desde = new Date(fechaBase);
+        desde.setUTCDate(fechaBase.getUTCDate() - 3);
+        const hasta = new Date(fechaBase);
+        hasta.setUTCDate(fechaBase.getUTCDate() + 3);
         
-        const resultadoTexto = `🌙 Tu Luna: ${fechaFormateada}`;
+        const opciones = { day: 'numeric', month: 'long' };
+        const fechaDesde = desde.toLocaleDateString('es-AR', opciones);
+        const fechaHasta = hasta.toLocaleDateString('es-AR', opciones);
+        
+        const resultadoTexto = `🌙 Tu Luna: entre el ${fechaDesde} y el ${fechaHasta}`;
+
         setResultado(resultadoTexto);
 
         push(ref(db, 'consultas_luna'), {
