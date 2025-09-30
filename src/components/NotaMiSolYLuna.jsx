@@ -62,7 +62,8 @@ export default function NotaMiSolYLuna() {
         const orbita = data.orbitas[0];
         console.log("🔹 Órbita recibida:", orbita);
     
-        let fechaBase = orbita.fecha ? new Date(orbita.fecha + 'T00:00:00Z') : new Date();
+        // ✅ Usamos fecha_luna en lugar de fecha
+        let fechaBase = orbita.fecha_luna ? new Date(orbita.fecha_luna) : new Date();
         console.log("📅 Fecha base:", fechaBase);
     
         const desde = new Date(fechaBase);
