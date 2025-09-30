@@ -53,24 +53,36 @@ export default function NotaMiSolYLuna() {
       });
 
       const data = await response.json();
-
+      // 👇 acá ves todo lo que devuelve tu backend
+      console.log("Respuesta backend:", data);
+      
       if (data.error) {
         setResultado(`Error: ${data.error}`);
       } else if (data.orbitas && data.orbitas.length > 0) {
         const orbita = data.orbitas[0];
+        console.log("🔹 Órbita recibida:", orbita);
+    
         let fechaBase = orbita.fecha ? new Date(orbita.fecha + 'T00:00:00Z') : new Date();
-
+        console.log("📅 Fecha base:", fechaBase);
+    
         const desde = new Date(fechaBase);
         desde.setUTCDate(fechaBase.getUTCDate() - 3);
+        console.log("⬅️ Desde:", desde);
+    
         const hasta = new Date(fechaBase);
         hasta.setUTCDate(fechaBase.getUTCDate() + 3);
-        
+        console.log("➡️ Hasta:", hasta);
+    
         const opciones = { day: 'numeric', month: 'long' };
         const fechaDesde = desde.toLocaleDateString('es-AR', opciones);
         const fechaHasta = hasta.toLocaleDateString('es-AR', opciones);
-        
+    
+        console.log("📌 Fecha formateada desde:", fechaDesde);
+        console.log("📌 Fecha formateada hasta:", fechaHasta);
+    
         const resultadoTexto = `🌙 Tu Luna: entre el ${fechaDesde} y el ${fechaHasta}`;
-
+        console.log("✅ Texto final mostrado:", resultadoTexto);
+    
         setResultado(resultadoTexto);
 
         push(ref(db, 'consultas_luna'), {
