@@ -62,16 +62,16 @@ export default function NotaMiSolYLuna() {
         const orbita = data.orbitas[0];
         console.log("🔹 Órbita recibida:", orbita);
     
-        // ✅ Usamos fecha_luna en lugar de fecha
-        let fechaBase = orbita.fecha_luna ? new Date(orbita.fecha_luna) : new Date();
-        console.log("📅 Fecha base:", fechaBase);
+        // ✅ Usamos sol_equivalente como base
+        let fechaBase = orbita.sol_equivalente ? new Date(orbita.sol_equivalente + 'T00:00:00Z') : new Date();
+        console.log("📅 Fecha base (sol_equivalente):", fechaBase);
     
         const desde = new Date(fechaBase);
-        desde.setUTCDate(fechaBase.getUTCDate() - 3);
+        desde.setUTCDate(fechaBase.getUTCDate() - 4);
         console.log("⬅️ Desde:", desde);
     
         const hasta = new Date(fechaBase);
-        hasta.setUTCDate(fechaBase.getUTCDate() + 3);
+        hasta.setUTCDate(fechaBase.getUTCDate() + 4);
         console.log("➡️ Hasta:", hasta);
     
         const opciones = { day: 'numeric', month: 'long' };
