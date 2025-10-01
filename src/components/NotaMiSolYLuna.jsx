@@ -3,6 +3,68 @@ import { useNavigate } from 'react-router-dom';
 import { db } from '../firebase';
 import { ref, push } from 'firebase/database';
 
+// 🔮 Arcanos Mayores (22)
+const arcanosMayores = [
+  { nombre: 'El Loco', descripcion: 'Nuevos comienzos, libertad, espontaneidad.' },
+  { nombre: 'El Mago', descripcion: 'Iniciativa, habilidades y poder personal.' },
+  { nombre: 'La Sacerdotisa', descripcion: 'Intuición, sabiduría oculta y misterio.' },
+  { nombre: 'La Emperatriz', descripcion: 'Fertilidad, creatividad y abundancia.' },
+  { nombre: 'El Emperador', descripcion: 'Autoridad, estructura y protección.' },
+  { nombre: 'El Hierofante', descripcion: 'Tradición, valores espirituales y enseñanza.' },
+  { nombre: 'Los Enamorados', descripcion: 'Amor, decisiones importantes y conexión.' },
+  { nombre: 'El Carro', descripcion: 'Determinación, éxito y control emocional.' },
+  { nombre: 'La Justicia', descripcion: 'Verdad, equidad y consecuencias kármicas.' },
+  { nombre: 'El Ermitaño', descripcion: 'Introspección, sabiduría interior y soledad.' },
+  { nombre: 'La Rueda de la Fortuna', descripcion: 'Cambios, ciclos y destino.' },
+  { nombre: 'La Fuerza', descripcion: 'Valor, compasión y autocontrol.' },
+  { nombre: 'El Colgado', descripcion: 'Pausa, cambio de perspectiva y entrega.' },
+  { nombre: 'La Muerte', descripcion: 'Transformación, renacimiento y evolución.' },
+  { nombre: 'La Templanza', descripcion: 'Equilibrio, paciencia y sanación.' },
+  { nombre: 'El Diablo', descripcion: 'Ataduras, deseos materiales y sombra interna.' },
+  { nombre: 'La Torre', descripcion: 'Revelaciones, cambios súbitos y liberación.' },
+  { nombre: 'La Estrella', descripcion: 'Esperanza, inspiración y renovación.' },
+  { nombre: 'La Luna', descripcion: 'Emociones profundas, intuición e ilusiones.' },
+  { nombre: 'El Sol', descripcion: 'Éxito, vitalidad y alegría pura.' },
+  { nombre: 'El Juicio', descripcion: 'Renacimiento, decisiones y llamado interno.' },
+  { nombre: 'El Mundo', descripcion: 'Realización, plenitud y cierre de ciclos.' }
+];
+
+// 🃏 Arcanos Menores (selección de 16)
+const arcanosMenores = [
+  { nombre: 'As de Bastos', descripcion: 'Inicio de proyectos, pasión y energía creativa.' },
+  { nombre: 'Dos de Copas', descripcion: 'Unión emocional, relaciones armoniosas.' },
+  { nombre: 'Tres de Espadas', descripcion: 'Dolor emocional, separación y claridad difícil.' },
+  { nombre: 'Cuatro de Oros', descripcion: 'Seguridad material, resistencia al cambio.' },
+  { nombre: 'Cinco de Bastos', descripcion: 'Conflictos, competencia y crecimiento personal.' },
+  { nombre: 'Seis de Copas', descripcion: 'Recuerdos felices, inocencia y nostalgia.' },
+  { nombre: 'Siete de Espadas', descripcion: 'Estrategia, discreción y actuar con cautela.' },
+  { nombre: 'Ocho de Oros', descripcion: 'Esfuerzo, dedicación y maestría.' },
+  { nombre: 'Nueve de Bastos', descripcion: 'Persistencia, pruebas finales y resiliencia.' },
+  { nombre: 'Diez de Copas', descripcion: 'Felicidad familiar, armonía emocional.' },
+  { nombre: 'Paje de Espadas', descripcion: 'Curiosidad, aprendizaje y vigilancia.' },
+  { nombre: 'Caballero de Oros', descripcion: 'Disciplina, constancia y avance seguro.' },
+  { nombre: 'Reina de Bastos', descripcion: 'Confianza, liderazgo y creatividad femenina.' },
+  { nombre: 'Rey de Copas', descripcion: 'Madurez emocional, comprensión y equilibrio.' },
+  { nombre: 'Tres de Bastos', descripcion: 'Visión a futuro, expansión y preparación.' },
+  { nombre: 'Siete de Copas', descripcion: 'Opciones, ilusiones y decisiones emocionales.' }
+];
+
+// 🎯 Función para calcular los Arcanos según la fecha
+const obtenerArcanos = (fechaStr) => {
+  const fecha = new Date(fechaStr);
+  const dia = fecha.getUTCDate();
+  const mes = fecha.getUTCMonth() + 1;
+  const año = fecha.getUTCFullYear();
+
+  const indexMayor = (dia + mes) % arcanosMayores.length;
+  const indexMenor = (año % 100) % arcanosMenores.length;
+
+  return {
+    mayor: arcanosMayores[indexMayor],
+    menor: arcanosMenores[indexMenor],
+  };
+};
+
 const styles = {
   contenedor: {
     width: '95%',
@@ -27,7 +89,6 @@ const styles = {
 
 export default function NotaMiSolYLuna() {
   const navigate = useNavigate();
-
   const [fecha, setFecha] = useState('');
   const [resultado, setResultado] = useState('');
   const [resultadoSolar, setResultadoSolar] = useState('');
@@ -53,43 +114,33 @@ export default function NotaMiSolYLuna() {
       });
 
       const data = await response.json();
-      // 👇 acá ves todo lo que devuelve tu backend
-      console.log("Respuesta backend:", data);
-      
       if (data.error) {
         setResultado(`Error: ${data.error}`);
       } else if (data.orbitas && data.orbitas.length > 0) {
         const orbita = data.orbitas[0];
-        console.log("🔹 Órbita recibida:", orbita);
-    
-        // ✅ Usamos sol_equivalente como base
         let fechaBase = orbita.sol_equivalente ? new Date(orbita.sol_equivalente + 'T00:00:00Z') : new Date();
-        console.log("📅 Fecha base (sol_equivalente):", fechaBase);
-    
+
         const desde = new Date(fechaBase);
         desde.setUTCDate(fechaBase.getUTCDate() - 4);
-        console.log("⬅️ Desde:", desde);
-    
         const hasta = new Date(fechaBase);
         hasta.setUTCDate(fechaBase.getUTCDate() + 4);
-        console.log("➡️ Hasta:", hasta);
-    
+
         const opciones = { day: 'numeric', month: 'long' };
         const fechaDesde = desde.toLocaleDateString('es-AR', opciones);
         const fechaHasta = hasta.toLocaleDateString('es-AR', opciones);
-    
-        console.log("📌 Fecha formateada desde:", fechaDesde);
-        console.log("📌 Fecha formateada hasta:", fechaHasta);
-    
-        const resultadoTexto = `🌙 Tu Luna: entre el ${fechaDesde} y el ${fechaHasta}`;
-        console.log("✅ Texto final mostrado:", resultadoTexto);
-    
-        setResultado(resultadoTexto);
+
+        const resultadoTextoLuna = `🌙 Tu Luna: entre el ${fechaDesde} y el ${fechaHasta}`;
+
+        // 🔮 Obtener arcanos
+        const arcanos = obtenerArcanos(fecha);
+        const textoArcanos = `\n\n🃏 Tu Arcano Mayor: ${arcanos.mayor.nombre}\n📖 ${arcanos.mayor.descripcion}\n\n🃏 Tu Arcano Menor: ${arcanos.menor.nombre}\n📖 ${arcanos.menor.descripcion}`;
+
+        setResultado(`${resultadoTextoLuna}${textoArcanos}`);
 
         push(ref(db, 'consultas_luna'), {
           fechaNacimiento: fecha,
           fechaConsulta: new Date().toISOString(),
-          resultado: resultadoTexto,
+          resultado: `${resultadoTextoLuna} | ${arcanos.mayor.nombre} / ${arcanos.menor.nombre}`,
         });
       } else {
         setResultado('No se encontraron órbitas para esa fecha.');
@@ -104,7 +155,6 @@ export default function NotaMiSolYLuna() {
 
   const consultarLunaSolar = async () => {
     setResultadoSolar('Buscando coincidencias con tu Sol natal...');
-
     try {
       const response = await fetch(`https://astro-mio-backend.onrender.com/api/luna-solar?nocache=${Date.now()}`, {
         method: 'POST',
@@ -113,7 +163,6 @@ export default function NotaMiSolYLuna() {
       });
 
       const data = await response.json();
-
       if (data.error) {
         setResultadoSolar(`Error: ${data.error}`);
       } else if (data.coincidencias && data.coincidencias.length > 0) {
@@ -129,13 +178,11 @@ export default function NotaMiSolYLuna() {
 
   const darLike = () => {
     if (likeDado) return;
-
     push(ref(db, 'likes_luna'), {
       fechaNacimiento: fecha,
       fechaConsulta: new Date().toISOString(),
       like: true,
     });
-
     setLikeDado(true);
   };
 
@@ -145,12 +192,12 @@ export default function NotaMiSolYLuna() {
 
       <p style={styles.parrafo}>🌞 <strong>Tu Sol</strong> representa tu esencia y cómo te mostrás al mundo.</p>
       <p style={styles.parrafo}>🌙 <strong>Tu Luna</strong> representa tu mundo emocional y cómo te conectás con los demás.</p>
-      <p style={styles.parrafo}>🌙 Descubrí tu Luna ingresando tu fecha y hora de nacimiento.</p>
+      <p style={styles.parrafo}>🌙 Descubrí tu Luna, tus Arcanos y mucho más ingresando tu fecha y hora de nacimiento.</p>
 
       <input type="datetime-local" value={fecha} onChange={(e) => setFecha(e.target.value)} style={styles.input} aria-label="Fecha y hora de nacimiento" />
 
       <button onClick={consultarLuna} style={styles.botonConsultar} disabled={loading}>
-        {loading ? 'Consultando tu Luna... ✨' : 'Descubrí tu Luna'}
+        {loading ? 'Consultando tu Luna... ✨' : 'Descubrí tu Luna y tus Arcanos'}
       </button>
 
       {resultado && (
