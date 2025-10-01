@@ -53,20 +53,37 @@ const arcanosMenores = [
 const obtenerArcanos = (fechaStr) => {
   const fecha = new Date(fechaStr);
 
-  // Extraemos la fecha en formato YYYYMMDD y convertimos a dígitos
+  // 🔎 Mostramos fecha original
+  console.log('🗓 Fecha original ingresada:', fechaStr);
+  console.log('📅 Fecha convertida a objeto:', fecha);
+
+  // ✂️ Extraemos fecha como string 'YYYYMMDD'
   const fechaNumerica = fecha.toISOString().slice(0, 10).replace(/-/g, '');
+  console.log('🔢 Fecha numérica (YYYYMMDD):', fechaNumerica);
+
+  // 🔠 Convertimos cada dígito en número
   const digitos = [...fechaNumerica].map(Number);
+  console.log('🔢 Dígitos individuales:', digitos);
 
+  // ➕ Sumamos todos los dígitos
   let suma = digitos.reduce((acc, val) => acc + val, 0);
+  console.log('➕ Suma inicial de dígitos:', suma);
 
-  // Reducimos hasta obtener número entre 1 y 22
+  // 🔁 Reducimos si es mayor que 22
   while (suma > 22) {
     suma = suma.toString().split('').reduce((acc, val) => acc + Number(val), 0);
+    console.log('🔁 Suma reducida:', suma);
   }
 
-  const indexMayor = suma - 1; // porque el array empieza en 0
+  const indexMayor = suma - 1;
+  console.log('🃏 Índice de Arcano Mayor:', indexMayor);
+  console.log('🃏 Arcano Mayor:', arcanosMayores[indexMayor]);
+
   const año = fecha.getUTCFullYear();
   const indexMenor = (año % 100) % 16;
+  console.log('📅 Año:', año);
+  console.log('🃏 Índice de Arcano Menor:', indexMenor);
+  console.log('🃏 Arcano Menor:', arcanosMenores[indexMenor]);
 
   return {
     mayor: arcanosMayores[indexMayor],
