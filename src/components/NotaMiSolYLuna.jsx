@@ -56,7 +56,16 @@ const obtenerArcanos = (fechaStr) => {
   const mes = fecha.getUTCMonth() + 1;
   const año = fecha.getUTCFullYear();
 
-  const indexMayor = (dia + mes) % arcanosMayores.length;
+  // 🔢 Convertimos todos los dígitos de la fecha en un array de números
+  const digitos = [...`${dia}${mes}${año}`].map(Number);
+  let suma = digitos.reduce((acc, val) => acc + val, 0);
+
+  // 🔁 Reducimos la suma hasta obtener un número entre 1 y 22
+  while (suma > 22) {
+    suma = suma.toString().split('').reduce((acc, val) => acc + Number(val), 0);
+  }
+
+  const indexMayor = suma - 1; // arcanosMayores[0] es El Loco (número 0)
   const indexMenor = (año % 100) % arcanosMenores.length;
 
   return {
