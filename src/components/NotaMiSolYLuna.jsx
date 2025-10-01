@@ -52,21 +52,21 @@ const arcanosMenores = [
 // 🎯 Función para calcular los Arcanos según la fecha
 const obtenerArcanos = (fechaStr) => {
   const fecha = new Date(fechaStr);
-  const dia = fecha.getUTCDate();
-  const mes = fecha.getUTCMonth() + 1;
-  const año = fecha.getUTCFullYear();
 
-  // 🔢 Convertimos todos los dígitos de la fecha en un array de números
-  const digitos = [...`${dia}${mes}${año}`].map(Number);
+  // Extraemos la fecha en formato YYYYMMDD y convertimos a dígitos
+  const fechaNumerica = fecha.toISOString().slice(0, 10).replace(/-/g, '');
+  const digitos = [...fechaNumerica].map(Number);
+
   let suma = digitos.reduce((acc, val) => acc + val, 0);
 
-  // 🔁 Reducimos la suma hasta obtener un número entre 1 y 22
+  // Reducimos hasta obtener número entre 1 y 22
   while (suma > 22) {
     suma = suma.toString().split('').reduce((acc, val) => acc + Number(val), 0);
   }
 
-  const indexMayor = suma - 1; // arcanosMayores[0] es El Loco (número 0)
-  const indexMenor = (año % 100) % arcanosMenores.length;
+  const indexMayor = suma - 1; // porque el array empieza en 0
+  const año = fecha.getUTCFullYear();
+  const indexMenor = (año % 100) % 16;
 
   return {
     mayor: arcanosMayores[indexMayor],
