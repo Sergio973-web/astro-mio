@@ -108,6 +108,34 @@ const styles = {
   resultado: { marginTop: '1rem', backgroundColor: '#f9f9f9', padding: '1rem', borderRadius: '8px', border: '1px solid #ddd', maxWidth: '500px', marginLeft: 'auto', marginRight: 'auto', whiteSpace: 'pre-wrap', fontFamily: 'monospace', fontSize: '1rem' },
 };
 
+// 🌀 Calendario Mexica (Tonalpohualli – 260 días)
+
+// Fecha base aceptada: 13 de agosto de 1521 = 1 Cipactli
+const TONAL_BASE_JDN = 2299161; // JDN astronómico
+
+const signosMexica = [
+  'Cipactli', 'Ehecatl', 'Calli', 'Cuetzpalin', 'Coatl',
+  'Miquiztli', 'Mazatl', 'Tochtli', 'Atl', 'Itzcuintli',
+  'Ozomatli', 'Malinalli', 'Acatl', 'Ocelotl', 'Cuauhtli',
+  'Cozcacuauhtli', 'Ollin', 'Tecpatl', 'Quiahuitl', 'Xochitl'
+];
+
+// Conversión simple a JDN (UTC, suficiente para conteo ritual)
+const fechaAJDN = (fecha) => {
+  const f = new Date(fecha);
+  return Math.floor(f.getTime() / 86400000) + 2440588;
+};
+
+const obtenerTonalpohualli = (fechaStr) => {
+  const jdn = fechaAJDN(fechaStr);
+  const delta = jdn - TONAL_BASE_JDN;
+
+  const numero = ((delta % 13) + 13) % 13 + 1;
+  const signo = signosMexica[((delta % 20) + 20) % 20];
+
+  return { numero, signo };
+};
+
 export default function NotaMiSolYLuna() {
   const navigate = useNavigate();
   const [fecha, setFecha] = useState('');
