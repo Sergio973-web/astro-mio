@@ -335,19 +335,18 @@ export default function NotaMiSolYLuna() {
   }
 
   try {
-    // 🔹 Convertir ambas fechas a ISO (UTC)
-    const toISOUTC = (fechaStr) => {
-      // fechaStr = "YYYY-MM-DD"
-      const [y, m, d] = fechaStr.split('-').map(Number);
-      return new Date(Date.UTC(y, m - 1, d)).toISOString().slice(0, 10);
+    // 🔹 Crear fechas UTC correctamente
+    const toUTCDate = (f) => {
+      const date = new Date(f);
+      return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
     };
 
-    const fechaISO = toISOUTC(fecha);
-    const fechaParejaISO = toISOUTC(fechaPareja);
-    
-    // 🔹 Calcular Tonalpohualli de cada persona
-    const mexicaNatal = obtenerTonalpohualli(fechaISO);
-    const mexicaPareja = obtenerTonalpohualli(fechaParejaISO);
+    const fechaUTC = toUTCDate(fecha);
+    const fechaParejaUTC = toUTCDate(fechaPareja);
+
+    // 🔹 Calcular Tonalpohualli
+    const mexicaNatal = obtenerTonalpohualli(fechaUTC);
+    const mexicaPareja = obtenerTonalpohualli(fechaParejaUTC);
 
     // 🔹 Interpretación de la unión
     const union = obtenerUnionMexica(mexicaNatal, mexicaPareja);
@@ -372,11 +371,11 @@ ${union.titulo}
     setResultado(textoPareja);
 
   } catch (error) {
+    console.error(error);
     setResultado(`Error al calcular Tonalpohualli de la pareja: ${error.message}`);
   }
 };
-
-
+  
   const consultarLunaSolar = async () => {
     setResultadoSolar('Buscando coincidencias con tu Sol natal...');
     try {
