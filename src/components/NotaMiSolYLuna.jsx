@@ -137,26 +137,14 @@ const signosMexica = [
 const mod = (n, m) => ((n % m) + m) % m;
 
 // Base del Tonalpohualli
+
 const TONAL_BASE_JDN = 584283; // 13/08/3114 a.C. = 1 Cipactli
+const OFFSET_CORRECTIVO = -588; // Ajuste para fechas modernas
 
-// Conversión a JDN precisa
-function fechaAJDN_debug(fechaStr) {
-  const [año, mes, dia] = fechaStr.split('T')[0].split('-').map(Number);
-  let Y = año;
-  let M = mes;
-  if (M <= 2) { 
-    Y -= 1; 
-    M += 12; 
-  }
-
-  // No usamos B, así evitamos el desfase
-  const JD = Math.floor(365.25 * (Y + 4716)) +
-             Math.floor(30.6001 * (M + 1)) +
-             dia - 1524;
-
-  console.log('📌 Año:', año, 'Mes:', mes, 'Día:', dia, 'Ajustado Y:', Y, 'M:', M, 'JD:', JD);
-  return JD;
-}
+const fechaAJDN = (fechaStr) => {
+  const date = new Date(fechaStr);
+  return Math.floor(date.getTime()/86400000) + 2440588 + OFFSET_CORRECTIVO;
+};
 
 function obtenerTonalpohualli(fechaStr) {
   const jdn = fechaAJDN_debug(fechaStr);
