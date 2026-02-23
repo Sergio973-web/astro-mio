@@ -139,10 +139,7 @@ function fechaAJDN(fechaStr) {
   const [año, mes, dia] = fechaStr.split('T')[0].split('-').map(Number);
   let Y = año;
   let M = mes;
-  if (M <= 2) {
-    Y -= 1;
-    M += 12;
-  }
+  if (M <= 2) { Y -= 1; M += 12; }
   const A = Math.floor(Y / 100);
   const B = 2 - A + Math.floor(A / 4);
   const JD = Math.floor(365.25 * (Y + 4716)) +
