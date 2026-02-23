@@ -138,9 +138,7 @@ const mod = (n, m) => ((n % m) + m) % m;
 
 // Conversión a JDN (día civil UTC)
 const fechaAJDN = (fechaStr) => {
-  const soloFecha = fechaStr.split('T')[0]; // ← elimina la hora
-  const [y, m, d] = soloFecha.split('-').map(Number);
-  const date = new Date(Date.UTC(y, m - 1, d));
+  const date = new Date(fechaStr); // acepta YYYY-MM-DD o YYYY-MM-DDTHH:mm
   return Math.floor(date.getTime() / 86400000) + 2440588;
 };
 
