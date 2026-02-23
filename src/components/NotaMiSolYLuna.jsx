@@ -172,7 +172,7 @@ const obtenerTonalpohualli = (fechaStr) => {
 
   console.log('🌀 TONAL DEBUG');
   console.log('Fecha original:', fechaStr);
-  console.log('Fecha usada (AAAA-MM-DD):', fechaSolo);
+  
   console.log('JDN:', jdn);
   console.log('Delta:', delta);
   console.log('Número:', numero);
