@@ -139,7 +139,7 @@ const mod = (n, m) => ((n % m) + m) % m;
 // Base del Tonalpohualli
 
 const TONAL_BASE_JDN = 584283; // 13/08/3114 a.C. = 1 Cipactli
-const OFFSET_CORRECTIVO = -588; // Ajuste para fechas modernas
+const OFFSET_CORRECTIVO = -81; // Ajuste para fechas modernas
 
 const fechaAJDN = (fechaStr) => {
   const [y, m, d] = fechaStr.split('T')[0].split('-').map(Number);
