@@ -132,6 +132,7 @@ const signosMexica = [
   { clave: 'Quiahuitl', texto: 'Quiahuitl (Lluvia)' },
   { clave: 'Xochitl', texto: 'Xochitl (Flor)' }
 ];
+
 // módulo matemático correcto
 const mod = (n, m) => ((n % m) + m) % m;
 
@@ -141,19 +142,21 @@ const fechaAJDN = (fechaStr) => {
   const date = new Date(Date.UTC(y, m - 1, d));
   return Math.floor(date.getTime() / 86400000) + 2440588;
 };
+
 const obtenerTonalpohualli = (fechaStr) => {
   const jdn = fechaAJDN(fechaStr);
   const delta = jdn - TONAL_BASE_JDN;
 
-  const numero = mod(delta, 13) + 1;
-  const signoObj = signosMexica[mod(delta, 20)];
+  const numero = ((delta % 13) + 13) % 13 + 1;
+  const signo  = signosMexica[((delta % 20) + 20) % 20];
 
   return {
     numero,
-    signo: signoObj.clave,     // para lógica
-    signoTexto: signoObj.texto // para mostrar
+    signoClave: signo.clave,
+    signoTexto: signo.texto
   };
 };
+
 
 // 🌀 Energía de los signos mexica
 const energiaSignoMexica = {
@@ -205,8 +208,8 @@ const obtenerUnionMexica = (a, b) => {
     };
   }
 
-  const sA = energiaSignoMexica[a.signo];
-  const sB = energiaSignoMexica[b.signo];
+  const sA = energiaSignoMexica[a.signoClave];
+  const sB = energiaSignoMexica[b.signoClave];
 
   if (!sA || !sB) {
     return {
