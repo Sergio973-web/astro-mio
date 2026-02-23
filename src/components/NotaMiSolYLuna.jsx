@@ -110,6 +110,8 @@ const styles = {
 
 // 🌀 Calendario Mexica (Tonalpohualli – 260 días)
 const TONAL_BASE_JDN = 2438095; // 23/02/1963 = 1 Cipactli
+const TONAL_OFFSET = 0; // ← lo vamos a ajustar con el log
+
 const signosMexica = [
   { clave: 'Cipactli', texto: 'Cipactli (Caimán)' },
   { clave: 'Ehecatl', texto: 'Ehecatl (Viento)' },
@@ -144,14 +146,24 @@ const fechaAJDN = (fechaStr) => {
 
 const obtenerTonalpohualli = (fechaStr) => {
   const jdn = fechaAJDN(fechaStr);
-  const delta = jdn - TONAL_BASE_JDN;
+  const delta = jdn - TONAL_BASE_JDN + TONAL_OFFSET;
 
-  const numero = ((delta % 13) + 13) % 13 + 1;
-  const indiceSigno = ((delta % 20) + 20) % 20;
-  const signo = signosMexica[indiceSigno];
+  const numeroIndex = mod(delta, 13);
+  const signoIndex  = mod(delta, 20);
+
+  console.log('🌀 TONAL DEBUG');
+  console.log('Fecha:', fechaStr);
+  console.log('JDN:', jdn);
+  console.log('Delta (días desde base):', delta);
+  console.log('Número index (0-12):', numeroIndex);
+  console.log('Signo index (0-19):', signoIndex);
+  console.log('Signo objeto:', signosMexica[signoIndex]);
+
+  const numero = numeroIndex + 1;
+  const signo  = signosMexica[signoIndex];
 
   if (!signo) {
-    throw new Error(`Signo mexica no calculable para fecha: ${fechaStr}`);
+    throw new Error('Signo mexica no encontrado');
   }
 
   return {
@@ -160,7 +172,6 @@ const obtenerTonalpohualli = (fechaStr) => {
     signoTexto: signo.texto
   };
 };
-
 // 🌀 Energía de los signos mexica
 const energiaSignoMexica = {
   Cipactli: { tipo: 'inicio', rasgo: 'origen y creación' },
