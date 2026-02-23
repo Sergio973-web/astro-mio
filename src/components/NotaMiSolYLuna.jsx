@@ -109,7 +109,6 @@ const styles = {
 };
 
 // 🌀 Calendario Mexica (Tonalpohualli – 260 días)
-// 🌀 Calendario Mexica (Tonalpohualli – 260 días)
 const TONAL_BASE_JDN = 2438095; // 23/02/1963 = 1 Cipactli
 
 const signosMexica = [
@@ -135,7 +134,10 @@ const signosMexica = [
   'Xochitl (Flor)'
 ];
 
-// Conversión a JDN (ritual: día civil)
+// módulo matemático correcto
+const mod = (n, m) => ((n % m) + m) % m;
+
+// Conversión a JDN (día civil UTC)
 const fechaAJDN = (fechaStr) => {
   const [y, m, d] = fechaStr.split('-').map(Number);
   const date = new Date(Date.UTC(y, m - 1, d));
