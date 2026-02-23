@@ -150,6 +150,9 @@ function fechaAJDN(fechaStr) {
 
 // Base tradicional mexica:
 // 13/08/1521 (Caída de Tenochtitlan) = 1 Cipactli
+// 📌 JDN base del Tonalpohualli
+// 1521-08-13 = 1 Cipactli
+const TONAL_BASE_JDN = fechaAJDN('1521-08-13');
 const obtenerTonalpohualli = (fechaStr) => {
   // Tomar SOLO la fecha y forzarla a UTC
   const [y, m, d] = fechaStr.split('T')[0].split('-').map(Number);
