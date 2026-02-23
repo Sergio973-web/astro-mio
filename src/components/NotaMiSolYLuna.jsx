@@ -133,45 +133,22 @@ const signosMexica = [
 ];
 
 const mod = (n, m) => ((n % m) + m) % m;
-
-// Cálculo JDN proleptico gregoriano
+// Conversión simple: contar días desde Unix Epoch
 function fechaAJDN(fechaStr) {
-  const [año, mes, dia] = fechaStr.split('T')[0].split('-').map(Number);
-  let Y = año;
-  let M = mes;
-  if (M <= 2) { Y -= 1; M += 12; }
-  const A = Math.floor(Y / 100);
-  const B = 2 - A + Math.floor(A / 4);
-  const JD = Math.floor(365.25 * (Y + 4716)) +
-             Math.floor(30.6001 * (M + 1)) +
-             dia + B - 1524;
-  return JD;
+  const [y, m, d] = fechaStr.split('T')[0].split('-').map(Number);
+  const date = new Date(Date.UTC(y, m - 1, d)); // solo día completo
+  return Math.floor(date.getTime() / 86400000) + 2440588;
 }
 
-// Base del Tonalpohualli
-const TONAL_BASE_JDN = 584283; // 13/08/3114 a.C. = 1 Cipactli
-
-const obtenerTonalpohualli = (fechaStr) => {
-  // 🔹 Tomar solo la parte de fecha (AAAA-MM-DD)
-  const fechaSolo = fechaStr.split('T')[0];
-
-  // 🔹 Convertir a JDN
-  const jdn = fechaAJDN(fechaSolo);
-
-  // 🔹 Diferencia respecto a la base del Tonalpohualli
+function obtenerTonalpohualli(fechaStr) {
+  const jdn = fechaAJDN(fechaStr);
   const delta = jdn - TONAL_BASE_JDN;
 
-  const numeroIndex = mod(delta, 13);
-  const signoIndex  = mod(delta, 20);
-
-  const numero = numeroIndex + 1;
-  const signo  = signosMexica[signoIndex];
-
-  if (!signo) throw new Error('Signo mexica no encontrado');
+  const numero = mod(delta, 13) + 1;
+  const signo = signosMexica[mod(delta, 20)];
 
   console.log('🌀 TONAL DEBUG');
   console.log('Fecha original:', fechaStr);
-  console.log('Fecha usada (AAAA-MM-DD):', fechaSolo);
   console.log('JDN:', jdn);
   console.log('Delta:', delta);
   console.log('Número:', numero);
@@ -182,7 +159,7 @@ const obtenerTonalpohualli = (fechaStr) => {
     signoClave: signo.clave,
     signoTexto: signo.texto
   };
-};
+}
 
 // 🌀 Energía de los signos mexica
 const energiaSignoMexica = {
