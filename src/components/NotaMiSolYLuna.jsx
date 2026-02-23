@@ -182,8 +182,21 @@ export default function NotaMiSolYLuna() {
 
         // 🔮 Obtener arcanos
         const arcanos = obtenerArcanos(fecha);
-        const textoArcanos = `\n\n🃏 Tu Arcano Mayor: ${arcanos.mayor.nombre}\n📖 ${arcanos.mayor.descripcion}\n\n🃏 Tu Arcano Menor: ${arcanos.menor.nombre}\n📖 ${arcanos.menor.descripcion}`;
 
+        // 🌀 Obtener calendario mexica  
+        const mexica = obtenerTonalpohualli(fecha);
+
+        const textoArcanos = `
+        \n🃏 Tu Arcano Mayor: ${arcanos.mayor.nombre}
+        📖 ${arcanos.mayor.descripcion}
+
+        🃏 Tu Arcano Menor: ${arcanos.menor.nombre}
+        📖 ${arcanos.menor.descripcion}
+
+        🌀 Calendario Mexica (Tonalpohualli):
+        🔢 ${mexica.numero} ${mexica.signo}
+        `;
+        
         setResultado(`${resultadoTextoLuna}${textoArcanos}`);
 
         push(ref(db, 'consultas_luna'), {
