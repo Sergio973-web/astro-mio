@@ -113,6 +113,62 @@ const styles = {
 // Fecha base aceptada: 13 de agosto de 1521 = 1 Cipactli
 const TONAL_BASE_JDN = 2299161; // JDN astronómico
 
+// 🌀 Energía de los signos mexica
+const energiaSignoMexica = {
+  Cipactli: { tipo: 'inicio', rasgo: 'origen y creación' },
+  Ehecatl: { tipo: 'movimiento', rasgo: 'cambio y comunicación' },
+  Calli: { tipo: 'estructura', rasgo: 'hogar y contención' },
+  Cuetzpalin: { tipo: 'impulso', rasgo: 'acción y vitalidad' },
+  Coatl: { tipo: 'transformacion', rasgo: 'sabiduría y renovación' },
+  Miquiztli: { tipo: 'profundidad', rasgo: 'cierre y trascendencia' },
+  Mazatl: { tipo: 'sensibilidad', rasgo: 'intuición y conexión natural' },
+  Tochtli: { tipo: 'exceso', rasgo: 'placer y desborde' },
+  Atl: { tipo: 'emocion', rasgo: 'fluidez y adaptación' },
+  Itzcuintli: { tipo: 'lealtad', rasgo: 'acompañamiento y servicio' },
+  Ozomatli: { tipo: 'juego', rasgo: 'creatividad y disfrute' },
+  Malinalli: { tipo: 'resiliencia', rasgo: 'crecimiento en la dificultad' },
+  Acatl: { tipo: 'direccion', rasgo: 'orden y propósito' },
+  Ocelotl: { tipo: 'poder', rasgo: 'protección y profundidad' },
+  Cuauhtli: { tipo: 'vision', rasgo: 'claridad y liderazgo' },
+  Cozcacuauhtli: { tipo: 'limpieza', rasgo: 'desapego y purificación' },
+  Ollin: { tipo: 'cambio', rasgo: 'movimiento radical' },
+  Tecpatl: { tipo: 'corte', rasgo: 'verdad y decisión' },
+  Quiahuitl: { tipo: 'liberacion', rasgo: 'descarga y renovación' },
+  Xochitl: { tipo: 'expresion', rasgo: 'belleza y manifestación' }
+};
+
+// 🔢 Energía de los números mexica
+const energiaNumeroMexica = {
+  1: 'inicio y semilla',
+  2: 'dualidad y vínculo',
+  3: 'expresión y movimiento',
+  4: 'estructura y base',
+  5: 'tensión y prueba',
+  6: 'equilibrio y armonía',
+  7: 'búsqueda interior',
+  8: 'poder y responsabilidad',
+  9: 'culminación y visión',
+ 10: 'manifestación completa',
+ 11: 'liberación de lo viejo',
+ 12: 'comprensión colectiva',
+ 13: 'trascendencia y cierre'
+};
+
+// 🔗 Unión mexica
+const obtenerUnionMexica = (a, b) => {
+  const sA = energiaSignoMexica[a.signo];
+  const sB = energiaSignoMexica[b.signo];
+
+  let dinamica = 'complementaria';
+  if (sA.tipo === sB.tipo) dinamica = 'espejo';
+  if (a.numero === b.numero) dinamica = 'intensificada';
+  if (Math.abs(a.numero - b.numero) >= 8) dinamica = 'desafiante';
+
+  return {
+    titulo: `Unión ${dinamica}`,
+    texto: `Conecta ${sA.rasgo} con ${sB.rasgo}. Relación ${dinamica} que exige conciencia.`
+  };
+};
 const signosMexica = [
   'Cipactli', 'Ehecatl', 'Calli', 'Cuetzpalin', 'Coatl',
   'Miquiztli', 'Mazatl', 'Tochtli', 'Atl', 'Itzcuintli',
@@ -184,17 +240,34 @@ export default function NotaMiSolYLuna() {
         const arcanos = obtenerArcanos(fecha);
 
         // 🌀 Obtener calendario mexica  
-        const mexica = obtenerTonalpohualli(fecha);
+        const mexicaNatal = obtenerTonalpohualli(fecha);
+
+        // fecha solar equivalente (pareja / activación)
+        const mexicaSolar = obtenerTonalpohualli(
+          orbita.sol_equivalente + 'T00:00:00Z'
+        );
+
+        const unionMexica = obtenerUnionMexica(mexicaNatal, mexicaSolar);
 
         const textoArcanos = `
-        \n🃏 Tu Arcano Mayor: ${arcanos.mayor.nombre}
+        🃏 Tu Arcano Mayor: ${arcanos.mayor.nombre}
         📖 ${arcanos.mayor.descripcion}
 
         🃏 Tu Arcano Menor: ${arcanos.menor.nombre}
         📖 ${arcanos.menor.descripcion}
 
-        🌀 Calendario Mexica (Tonalpohualli):
-        🔢 ${mexica.numero} ${mexica.signo}
+        🌀 Calendario Mexica (Tonalpohualli)
+
+        👤 Tú:
+        🔢 ${mexicaNatal.numero} ${mexicaNatal.signo}
+        📖 ${energiaNumeroMexica[mexicaNatal.numero]} · ${energiaSignoMexica[mexicaNatal.signo].rasgo}
+
+        ☀️ Activación / Pareja:
+        🔢 ${mexicaSolar.numero} ${mexicaSolar.signo}
+        📖 ${energiaNumeroMexica[mexicaSolar.numero]} · ${energiaSignoMexica[mexicaSolar.signo].rasgo}
+
+        🔗 ${unionMexica.titulo}
+        📖 ${unionMexica.texto}
         `;
         
         setResultado(`${resultadoTextoLuna}${textoArcanos}`);
