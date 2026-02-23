@@ -134,24 +134,25 @@ const signosMexica = [
 
 const mod = (n, m) => ((n % m) + m) % m;
 
-const fechaAJDN = (fechaStr) => {
-  let [año, mes, dia] = fechaStr.split('T')[0].split('-').map(Number);
+function fechaAJDN(fechaStr) {
+  const [año, mes, dia] = fechaStr.split('T')[0].split('-').map(Number);
 
-  // Ajuste para meses enero/febrero
-  if (mes <= 2) {
-    año -= 1;
-    mes += 12;
+  let Y = año;
+  let M = mes;
+  if (M <= 2) {
+    Y -= 1;
+    M += 12;
   }
 
-  const A = Math.floor(año / 100);
+  const A = Math.floor(Y / 100);
   const B = 2 - A + Math.floor(A / 4);
 
-  const jdn = Math.floor(365.25 * (año + 4716)) +
-              Math.floor(30.6001 * (mes + 1)) +
-              dia + B - 1524.5;
+  const JD = Math.floor(365.25 * (Y + 4716)) +
+             Math.floor(30.6001 * (M + 1)) +
+             dia + B - 1524;
 
-  return Math.floor(jdn);
-};
+  return JD;
+}
 
 const TONAL_BASE_JDN = 584283; // 13/08/3114 a.C. = 1 Cipactli
 
