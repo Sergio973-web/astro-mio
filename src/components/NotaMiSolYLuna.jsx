@@ -294,12 +294,7 @@ export default function NotaMiSolYLuna() {
         // 🌀 Obtener calendario mexica  
         const mexicaNatal = obtenerTonalpohualli(fecha);
 
-        // fecha solar equivalente (pareja / activación)
-        const mexicaSolar = obtenerTonalpohualli(
-          orbita.sol_equivalente + 'T00:00:00Z'
-        );
-
-        const unionMexica = obtenerUnionMexica(mexicaNatal, mexicaSolar);
+        const unionMexica = obtenerUnionMexica(mexicaNatal);
 
         const textoArcanos = `
         🃏 Tu Arcano Mayor: ${arcanos.mayor.nombre}
@@ -340,25 +335,24 @@ export default function NotaMiSolYLuna() {
   }
 
   try {
-    // 🔹 Convertir a ISO UTC
-    const fechaISO = new Date(fecha).toISOString().slice(0,10);
-    const fechaParejaISO = new Date(fechaPareja).toISOString().slice(0,10);
+    // 🔹 Convertir ambas fechas a ISO (UTC)
+    const toISOUTC = (fechaStr) => {
+      // fechaStr = "YYYY-MM-DD"
+      const [y, m, d] = fechaStr.split('-').map(Number);
+      return new Date(Date.UTC(y, m - 1, d)).toISOString().slice(0, 10);
+    };
 
-    console.log('🔹 Fecha original:', fecha, '→ ISO UTC:', fechaISO);
-    console.log('🔹 Fecha pareja original:', fechaPareja, '→ ISO UTC:', fechaParejaISO);
-
-    // 🔹 Calcular Tonalpohualli
+    const fechaISO = toISOUTC(fecha);
+    const fechaParejaISO = toISOUTC(fechaPareja);
+    
+    // 🔹 Calcular Tonalpohualli de cada persona
     const mexicaNatal = obtenerTonalpohualli(fechaISO);
     const mexicaPareja = obtenerTonalpohualli(fechaParejaISO);
 
-    console.log('🌀 Tonal Natal:', mexicaNatal);
-    console.log('🌀 Tonal Pareja:', mexicaPareja);
-
-    // 🔹 Interpretación
+    // 🔹 Interpretación de la unión
     const union = obtenerUnionMexica(mexicaNatal, mexicaPareja);
 
-    console.log('🔗 Unión Mexica:', union);
-
+    // 🔹 Texto final estilo sacerdote azteca
     const textoPareja = `
 🗓️ Calendario Mexica (Tonalpohualli – Pareja)
 
@@ -382,7 +376,7 @@ ${union.titulo}
   }
 };
 
-  
+
   const consultarLunaSolar = async () => {
     setResultadoSolar('Buscando coincidencias con tu Sol natal...');
     try {
