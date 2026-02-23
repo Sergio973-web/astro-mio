@@ -109,32 +109,48 @@ const styles = {
 };
 
 // 🌀 Calendario Mexica (Tonalpohualli – 260 días)
+// 🌀 Calendario Mexica (Tonalpohualli – 260 días)
+const TONAL_BASE_JDN = 2438095; // 23/02/1963 = 1 Cipactli
 
-// 4 de febrero de 1974 = 1 Cipactli
-const TONAL_BASE_JDN = 2442083;
 const signosMexica = [
-  'Cipactli', 'Ehecatl', 'Calli', 'Cuetzpalin', 'Coatl',
-  'Miquiztli', 'Mazatl', 'Tochtli', 'Atl', 'Itzcuintli',
-  'Ozomatli', 'Malinalli', 'Acatl', 'Ocelotl', 'Cuauhtli',
-  'Cozcacuauhtli', 'Ollin', 'Tecpatl', 'Quiahuitl', 'Xochitl'
+  'Cipactli (Caimán)',
+  'Ehecatl (Viento)',
+  'Calli (Casa)',
+  'Cuetzpalin (Lagartija)',
+  'Coatl (Serpiente)',
+  'Miquiztli (Muerte)',
+  'Mazatl (Venado)',
+  'Tochtli (Conejo)',
+  'Atl (Agua)',
+  'Itzcuintli (Perro)',
+  'Ozomatli (Mono)',
+  'Malinalli (Hierba)',
+  'Acatl (Caña)',
+  'Ocelotl (Jaguar)',
+  'Cuauhtli (Águila)',
+  'Cozcacuauhtli (Buitre)',
+  'Ollin (Movimiento)',
+  'Tecpatl (Pedernal)',
+  'Quiahuitl (Lluvia)',
+  'Xochitl (Flor)'
 ];
 
-// Conversión simple a JDN (UTC, suficiente para conteo ritual)
-const fechaAJDN = (fecha) => {
-  const f = new Date(fecha);
-  return Math.floor(f.getTime() / 86400000) + 2440588;
+// Conversión a JDN (ritual: día civil)
+const fechaAJDN = (fechaStr) => {
+  const [y, m, d] = fechaStr.split('-').map(Number);
+  const date = new Date(Date.UTC(y, m - 1, d));
+  return Math.floor(date.getTime() / 86400000) + 2440588;
 };
 
 const obtenerTonalpohualli = (fechaStr) => {
   const jdn = fechaAJDN(fechaStr);
-  const delta = jdn - TONAL_BASE_JDN + 54;
+  const delta = jdn - TONAL_BASE_JDN;
 
-  const numero = ((delta % 13) + 13) % 13 + 1;
-  const signo = signosMexica[((delta % 20) + 20) % 20];
+  const numero = mod(delta, 13) + 1;
+  const signo  = signosMexica[mod(delta, 20)];
 
   return { numero, signo };
 };
-
 // 🌀 Energía de los signos mexica
 const energiaSignoMexica = {
   Cipactli: { tipo: 'inicio', rasgo: 'origen y creación' },
