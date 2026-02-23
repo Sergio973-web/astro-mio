@@ -127,7 +127,7 @@ const fechaAJDN = (fecha) => {
 
 const obtenerTonalpohualli = (fechaStr) => {
   const jdn = fechaAJDN(fechaStr);
-  const delta = jdn - TONAL_BASE_JDN;
+  const delta = jdn - TONAL_BASE_JDN + 54;
 
   const numero = ((delta % 13) + 13) % 13 + 1;
   const signo = signosMexica[((delta % 20) + 20) % 20];
