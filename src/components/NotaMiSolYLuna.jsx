@@ -138,7 +138,8 @@ const mod = (n, m) => ((n % m) + m) % m;
 
 // Conversión a JDN (día civil UTC)
 const fechaAJDN = (fechaStr) => {
-  const [y, m, d] = fechaStr.split('-').map(Number);
+  const soloFecha = fechaStr.split('T')[0]; // ← elimina la hora
+  const [y, m, d] = soloFecha.split('-').map(Number);
   const date = new Date(Date.UTC(y, m - 1, d));
   return Math.floor(date.getTime() / 86400000) + 2440588;
 };
@@ -148,7 +149,12 @@ const obtenerTonalpohualli = (fechaStr) => {
   const delta = jdn - TONAL_BASE_JDN;
 
   const numero = ((delta % 13) + 13) % 13 + 1;
-  const signo  = signosMexica[((delta % 20) + 20) % 20];
+  const indiceSigno = ((delta % 20) + 20) % 20;
+  const signo = signosMexica[indiceSigno];
+
+  if (!signo) {
+    throw new Error(`Signo mexica no calculable para fecha: ${fechaStr}`);
+  }
 
   return {
     numero,
@@ -156,7 +162,6 @@ const obtenerTonalpohualli = (fechaStr) => {
     signoTexto: signo.texto
   };
 };
-
 
 // 🌀 Energía de los signos mexica
 const energiaSignoMexica = {
@@ -201,7 +206,7 @@ const energiaNumeroMexica = {
 
 // 🔗 Unión mexica
 const obtenerUnionMexica = (a, b) => {
-  if (!a?.signo || !b?.signo) {
+  if (!a?.signoClave || !b?.signoClave) {
     return {
       titulo: 'Unión indeterminada',
       texto: 'Faltan datos de signo para interpretar la unión.'
@@ -295,17 +300,17 @@ export default function NotaMiSolYLuna() {
         🌀 Calendario Mexica (Tonalpohualli)
 
         👤 Tú:
-        🔢 ${mexicaNatal.numero} ${mexicaNatal.signo}
-        📖 ${energiaNumeroMexica[mexicaNatal.numero]} · ${energiaSignoMexica[mexicaNatal.signo].rasgo}
-
+        🔢 ${mexicaNatal.numero} ${mexicaNatal.signoTexto}
+        📖 ${energiaNumeroMexica[mexicaNatal.numero]} · ${energiaSignoMexica[mexicaNatal.signoClave].rasgo}
+        
         ☀️ Activación / Pareja:
-        🔢 ${mexicaSolar.numero} ${mexicaSolar.signo}
-        📖 ${energiaNumeroMexica[mexicaSolar.numero]} · ${energiaSignoMexica[mexicaSolar.signo].rasgo}
-
+        🔢 ${mexicaSolar.numero} ${mexicaSolar.signoTexto}
+        📖 ${energiaNumeroMexica[mexicaSolar.numero]} · ${energiaSignoMexica[mexicaSolar.signoClave].rasgo}
+        
         🔗 ${unionMexica.titulo}
         📖 ${unionMexica.texto}
         `;
-        
+                
         setResultado(`${resultadoTextoLuna}${textoArcanos}`);
 
         push(ref(db, 'consultas_luna'), {
