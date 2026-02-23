@@ -110,30 +110,28 @@ const styles = {
 
 // 🌀 Calendario Mexica (Tonalpohualli – 260 días)
 const TONAL_BASE_JDN = 2438095; // 23/02/1963 = 1 Cipactli
-
 const signosMexica = [
-  'Cipactli (Caimán)',
-  'Ehecatl (Viento)',
-  'Calli (Casa)',
-  'Cuetzpalin (Lagartija)',
-  'Coatl (Serpiente)',
-  'Miquiztli (Muerte)',
-  'Mazatl (Venado)',
-  'Tochtli (Conejo)',
-  'Atl (Agua)',
-  'Itzcuintli (Perro)',
-  'Ozomatli (Mono)',
-  'Malinalli (Hierba)',
-  'Acatl (Caña)',
-  'Ocelotl (Jaguar)',
-  'Cuauhtli (Águila)',
-  'Cozcacuauhtli (Buitre)',
-  'Ollin (Movimiento)',
-  'Tecpatl (Pedernal)',
-  'Quiahuitl (Lluvia)',
-  'Xochitl (Flor)'
+  { clave: 'Cipactli', texto: 'Cipactli (Caimán)' },
+  { clave: 'Ehecatl', texto: 'Ehecatl (Viento)' },
+  { clave: 'Calli', texto: 'Calli (Casa)' },
+  { clave: 'Cuetzpalin', texto: 'Cuetzpalin (Lagartija)' },
+  { clave: 'Coatl', texto: 'Coatl (Serpiente)' },
+  { clave: 'Miquiztli', texto: 'Miquiztli (Muerte)' },
+  { clave: 'Mazatl', texto: 'Mazatl (Venado)' },
+  { clave: 'Tochtli', texto: 'Tochtli (Conejo)' },
+  { clave: 'Atl', texto: 'Atl (Agua)' },
+  { clave: 'Itzcuintli', texto: 'Itzcuintli (Perro)' },
+  { clave: 'Ozomatli', texto: 'Ozomatli (Mono)' },
+  { clave: 'Malinalli', texto: 'Malinalli (Hierba)' },
+  { clave: 'Acatl', texto: 'Acatl (Caña)' },
+  { clave: 'Ocelotl', texto: 'Ocelotl (Jaguar)' },
+  { clave: 'Cuauhtli', texto: 'Cuauhtli (Águila)' },
+  { clave: 'Cozcacuauhtli', texto: 'Cozcacuauhtli (Buitre)' },
+  { clave: 'Ollin', texto: 'Ollin (Movimiento)' },
+  { clave: 'Tecpatl', texto: 'Tecpatl (Pedernal)' },
+  { clave: 'Quiahuitl', texto: 'Quiahuitl (Lluvia)' },
+  { clave: 'Xochitl', texto: 'Xochitl (Flor)' }
 ];
-
 // módulo matemático correcto
 const mod = (n, m) => ((n % m) + m) % m;
 
@@ -143,16 +141,20 @@ const fechaAJDN = (fechaStr) => {
   const date = new Date(Date.UTC(y, m - 1, d));
   return Math.floor(date.getTime() / 86400000) + 2440588;
 };
-
 const obtenerTonalpohualli = (fechaStr) => {
   const jdn = fechaAJDN(fechaStr);
   const delta = jdn - TONAL_BASE_JDN;
 
   const numero = mod(delta, 13) + 1;
-  const signo  = signosMexica[mod(delta, 20)];
+  const signoObj = signosMexica[mod(delta, 20)];
 
-  return { numero, signo };
+  return {
+    numero,
+    signo: signoObj.clave,     // para lógica
+    signoTexto: signoObj.texto // para mostrar
+  };
 };
+
 // 🌀 Energía de los signos mexica
 const energiaSignoMexica = {
   Cipactli: { tipo: 'inicio', rasgo: 'origen y creación' },
