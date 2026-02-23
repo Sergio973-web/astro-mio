@@ -110,7 +110,7 @@ const styles = {
 
 // 🌀 Calendario Mexica (Tonalpohualli – 260 días)
 const TONAL_BASE_JDN = 2438095; // 23/02/1963 = 1 Cipactli
-const TONAL_OFFSET = 0; // ← lo vamos a ajustar con el log
+const TONAL_OFFSET = 6; // ← lo vamos a ajustar con el log
 
 const signosMexica = [
   { clave: 'Cipactli', texto: 'Cipactli (Caimán)' },
