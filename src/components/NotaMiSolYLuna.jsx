@@ -109,9 +109,6 @@ const styles = {
 };
 
 // 🌀 Calendario Mexica (Tonalpohualli – 260 días)
-const TONAL_BASE_JDN = 2438095; // 23/02/1963 = 1 Cipactli
-const TONAL_OFFSET = 6; // ← lo vamos a ajustar con el log
-
 const signosMexica = [
   { clave: 'Cipactli', texto: 'Cipactli (Caimán)' },
   { clave: 'Ehecatl', texto: 'Ehecatl (Viento)' },
@@ -135,36 +132,33 @@ const signosMexica = [
   { clave: 'Xochitl', texto: 'Xochitl (Flor)' }
 ];
 
-// módulo matemático correcto
 const mod = (n, m) => ((n % m) + m) % m;
 
-// Conversión a JDN (día civil UTC)
 const fechaAJDN = (fechaStr) => {
-  const date = new Date(fechaStr); // acepta YYYY-MM-DD o YYYY-MM-DDTHH:mm
-  return Math.floor(date.getTime() / 86400000) + 2440588;
+  const date = new Date(fechaStr);
+  return Math.floor(date.getTime() / 86400000) + 2440588; // JDN estándar
 };
+
+const TONAL_BASE_JDN = 584283; // 13/08/3114 a.C. = 1 Cipactli
 
 const obtenerTonalpohualli = (fechaStr) => {
   const jdn = fechaAJDN(fechaStr);
-  const delta = jdn - TONAL_BASE_JDN + TONAL_OFFSET;
+  const delta = jdn - TONAL_BASE_JDN;
 
   const numeroIndex = mod(delta, 13);
-  const signoIndex  = mod(delta, 20);
+  const signoIndex = mod(delta, 20);
+
+  const numero = numeroIndex + 1;
+  const signo = signosMexica[signoIndex];
+
+  if (!signo) throw new Error('Signo mexica no encontrado');
 
   console.log('🌀 TONAL DEBUG');
   console.log('Fecha:', fechaStr);
   console.log('JDN:', jdn);
-  console.log('Delta (días desde base):', delta);
-  console.log('Número index (0-12):', numeroIndex);
-  console.log('Signo index (0-19):', signoIndex);
-  console.log('Signo objeto:', signosMexica[signoIndex]);
-
-  const numero = numeroIndex + 1;
-  const signo  = signosMexica[signoIndex];
-
-  if (!signo) {
-    throw new Error('Signo mexica no encontrado');
-  }
+  console.log('Delta:', delta);
+  console.log('Número:', numero);
+  console.log('Signo:', signo);
 
   return {
     numero,
@@ -172,6 +166,7 @@ const obtenerTonalpohualli = (fechaStr) => {
     signoTexto: signo.texto
   };
 };
+
 // 🌀 Energía de los signos mexica
 const energiaSignoMexica = {
   Cipactli: { tipo: 'inicio', rasgo: 'origen y creación' },
