@@ -147,7 +147,7 @@ const fechaAJDN = (fechaStr) => {
 };
 
 function obtenerTonalpohualli(fechaStr) {
-  const jdn = fechaAJDN_debug(fechaStr);
+  const jdn = fechaAJDN(fechaStr);
   const delta = jdn - 584283; // base Tonalpohualli
   console.log('📌 Delta (días desde 1 Cipactli):', delta);
 
