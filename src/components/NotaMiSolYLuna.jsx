@@ -108,8 +108,6 @@ const styles = {
   resultado: { marginTop: '1rem', backgroundColor: '#f9f9f9', padding: '1rem', borderRadius: '8px', border: '1px solid #ddd', maxWidth: '500px', marginLeft: 'auto', marginRight: 'auto', whiteSpace: 'pre-wrap', fontFamily: 'monospace', fontSize: '1rem' },
 };
 
-// 🌀 Calendario Mexica (Tonalpohualli – 260 días)
-// Lista de signos mexicas
 const signosMexica = [
   { clave: 'Cipactli', texto: 'Cipactli (Caimán)' },
   { clave: 'Ehecatl', texto: 'Ehecatl (Viento)' },
@@ -133,36 +131,57 @@ const signosMexica = [
   { clave: 'Xochitl', texto: 'Xochitl (Flor)' }
 ];
 
-// Módulo seguro
 const mod = (n, m) => ((n % m) + m) % m;
 
+// Cálculo JDN proleptico gregoriano
+function fechaAJDN(fechaStr) {
+  const [año, mes, dia] = fechaStr.split('T')[0].split('-').map(Number);
+  let Y = año;
+  let M = mes;
+  if (M <= 2) { Y -= 1; M += 12; }
+  const A = Math.floor(Y / 100);
+  const B = 2 - A + Math.floor(A / 4);
+  const JD = Math.floor(365.01450142 * (Y + 4716)) +
+             Math.floor(30.6001 * (M + 1)) +
+             dia + B - 1524;
+  return JD;
+}
+
 // Base del Tonalpohualli
-
 const TONAL_BASE_JDN = 584283; // 13/08/3114 a.C. = 1 Cipactli
-const OFFSET_CORRECTIVO = -81; // Ajuste para fechas modernas
 
-const fechaAJDN = (fechaStr) => {
-  const [y, m, d] = fechaStr.split('T')[0].split('-').map(Number);
-  const utc = Date.UTC(y, m - 1, d); // ← CLAVE
-  return Math.floor(utc / 86400000) + 2440588 + OFFSET_CORRECTIVO;
-};
+const obtenerTonalpohualli = (fechaStr) => {
+  // 🔹 Tomar solo la parte de fecha (AAAA-MM-DD)
+  const fechaSolo = fechaStr.split('T')[0];
 
-function obtenerTonalpohualli(fechaStr) {
-  const jdn = fechaAJDN(fechaStr);
-  const delta = jdn - 584283; // base Tonalpohualli
-  console.log('📌 Delta (días desde 1 Cipactli):', delta);
+  // 🔹 Convertir a JDN
+  const jdn = fechaAJDN(fechaSolo);
 
-  const numeroIndex = ((delta % 13) + 13) % 13;
-  const signoIndex  = ((delta % 20) + 20) % 20;
+  // 🔹 Diferencia respecto a la base del Tonalpohualli
+  const delta = jdn - TONAL_BASE_JDN;
+
+  const numeroIndex = mod(delta, 13);
+  const signoIndex  = mod(delta, 20);
 
   const numero = numeroIndex + 1;
-  const signo = signosMexica[signoIndex];
+  const signo  = signosMexica[signoIndex];
 
-  console.log('📌 Número:', numero);
-  console.log('📌 Signo:', signo);
+  if (!signo) throw new Error('Signo mexica no encontrado');
 
-  return { numero, signoClave: signo.clave, signoTexto: signo.texto };
-}
+  console.log('🌀 TONAL DEBUG');
+  console.log('Fecha original:', fechaStr);
+  console.log('Fecha usada (AAAA-MM-DD):', fechaSolo);
+  console.log('JDN:', jdn);
+  console.log('Delta:', delta);
+  console.log('Número:', numero);
+  console.log('Signo:', signo);
+
+  return {
+    numero,
+    signoClave: signo.clave,
+    signoTexto: signo.texto
+  };
+};
 
 // 🌀 Energía de los signos mexica
 const energiaSignoMexica = {
@@ -367,7 +386,7 @@ ${union.titulo}
     setResultado(`Error al calcular Tonalpohualli de la pareja: ${error.message}`);
   }
 };
-  
+
   const consultarLunaSolar = async () => {
     setResultadoSolar('Buscando coincidencias con tu Sol natal...');
     try {
