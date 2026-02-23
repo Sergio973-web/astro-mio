@@ -249,6 +249,7 @@ export default function NotaMiSolYLuna() {
   const [resultadoSolar, setResultadoSolar] = useState('');
   const [loading, setLoading] = useState(false);
   const [likeDado, setLikeDado] = useState(false);
+  const [fechaPareja, setFechaPareja] = useState('');
 
   const consultarLuna = async () => {
     if (!fecha) {
@@ -338,6 +339,29 @@ export default function NotaMiSolYLuna() {
     }
   };
 
+  const calcularMexicaPareja = () => {
+    if (!fechaPareja) {
+      alert('Por favor selecciona la fecha de la pareja.');
+      return;
+    }
+
+    try {
+      const mexicaPareja = obtenerTonalpohualli(fechaPareja);
+
+      const textoPareja = `
+  🌀 Calendario Mexica (Tonalpohualli – Pareja)
+
+  ☀️ Pareja:
+  🔢 ${mexicaPareja.numero} ${mexicaPareja.signoTexto}
+  📖 ${energiaNumeroMexica[mexicaPareja.numero]} · ${energiaSignoMexica[mexicaPareja.signoClave].rasgo}
+      `;
+
+      setResultado(textoPareja);
+    } catch (error) {
+      setResultado(`Error al calcular Tonalpohualli de la pareja: ${error.message}`);
+    }
+  };
+
   const consultarLunaSolar = async () => {
     setResultadoSolar('Buscando coincidencias con tu Sol natal...');
     try {
@@ -379,11 +403,39 @@ export default function NotaMiSolYLuna() {
       <p style={styles.parrafo}>🌙 <strong>Tu Luna</strong> representa tu mundo emocional y cómo te conectás con los demás.</p>
       <p style={styles.parrafo}>🌙 Descubrí tu Luna, tus Arcanos y mucho más ingresando tu fecha y hora de nacimiento.</p>
 
-      <input type="datetime-local" value={fecha} onChange={(e) => setFecha(e.target.value)} style={styles.input} aria-label="Fecha y hora de nacimiento" />
+      {/* Input y botón de tu fecha de nacimiento */}
+      <input
+        type="datetime-local"
+        value={fecha}
+        onChange={(e) => setFecha(e.target.value)}
+        style={styles.input}
+        aria-label="Fecha y hora de nacimiento"
+      />
 
-      <button onClick={consultarLuna} style={styles.botonConsultar} disabled={loading}>
+      <button
+        onClick={consultarLuna}
+        style={styles.botonConsultar}
+        disabled={loading}
+      >
         {loading ? 'Consultando tu Luna... ✨' : 'Descubrí tu Luna y tus Arcanos'}
       </button>
+
+      {/* ───────── Input y botón para la pareja ───────── */}
+      <input
+        type="date"
+        value={fechaPareja}
+        onChange={(e) => setFechaPareja(e.target.value)}
+        style={styles.input}
+        aria-label="Fecha de la pareja"
+      />
+
+      <button
+        onClick={calcularMexicaPareja}
+        style={{ ...styles.botonConsultar, backgroundColor: '#FF9800' }}
+      >
+        🔮 Calcular Tonalpohualli de la pareja
+      </button>
+
 
       {resultado && (
         <>
