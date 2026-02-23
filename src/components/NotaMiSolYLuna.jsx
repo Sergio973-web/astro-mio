@@ -154,7 +154,7 @@ function fechaAJDN(fechaStr) {
 📌 BASE TRADICIONAL VERIFICADA
 12/08/1521 = 8 Ocelotl (Jaguar)
 */
-const TONAL_BASE_JDN  = fechaAJDN('1521-08-11');
+const TONAL_BASE_JDN  = fechaAJDN('1973-12-05');
 const TONAL_BASE_NUM  = 8;
 const TONAL_BASE_SIGN = 13; // índice REAL de Ocelotl
 
