@@ -112,6 +112,28 @@ const styles = {
 
 // Fecha base aceptada: 13 de agosto de 1521 = 1 Cipactli
 const TONAL_BASE_JDN = 2299161; // JDN astronómico
+const signosMexica = [
+  'Cipactli', 'Ehecatl', 'Calli', 'Cuetzpalin', 'Coatl',
+  'Miquiztli', 'Mazatl', 'Tochtli', 'Atl', 'Itzcuintli',
+  'Ozomatli', 'Malinalli', 'Acatl', 'Ocelotl', 'Cuauhtli',
+  'Cozcacuauhtli', 'Ollin', 'Tecpatl', 'Quiahuitl', 'Xochitl'
+];
+
+// Conversión simple a JDN (UTC, suficiente para conteo ritual)
+const fechaAJDN = (fecha) => {
+  const f = new Date(fecha);
+  return Math.floor(f.getTime() / 86400000) + 2440588;
+};
+
+const obtenerTonalpohualli = (fechaStr) => {
+  const jdn = fechaAJDN(fechaStr);
+  const delta = jdn - TONAL_BASE_JDN;
+
+  const numero = ((delta % 13) + 13) % 13 + 1;
+  const signo = signosMexica[((delta % 20) + 20) % 20];
+
+  return { numero, signo };
+};
 
 // 🌀 Energía de los signos mexica
 const energiaSignoMexica = {
@@ -169,28 +191,7 @@ const obtenerUnionMexica = (a, b) => {
     texto: `Conecta ${sA.rasgo} con ${sB.rasgo}. Relación ${dinamica} que exige conciencia.`
   };
 };
-const signosMexica = [
-  'Cipactli', 'Ehecatl', 'Calli', 'Cuetzpalin', 'Coatl',
-  'Miquiztli', 'Mazatl', 'Tochtli', 'Atl', 'Itzcuintli',
-  'Ozomatli', 'Malinalli', 'Acatl', 'Ocelotl', 'Cuauhtli',
-  'Cozcacuauhtli', 'Ollin', 'Tecpatl', 'Quiahuitl', 'Xochitl'
-];
 
-// Conversión simple a JDN (UTC, suficiente para conteo ritual)
-const fechaAJDN = (fecha) => {
-  const f = new Date(fecha);
-  return Math.floor(f.getTime() / 86400000) + 2440588;
-};
-
-const obtenerTonalpohualli = (fechaStr) => {
-  const jdn = fechaAJDN(fechaStr);
-  const delta = jdn - TONAL_BASE_JDN;
-
-  const numero = ((delta % 13) + 13) % 13 + 1;
-  const signo = signosMexica[((delta % 20) + 20) % 20];
-
-  return { numero, signo };
-};
 
 export default function NotaMiSolYLuna() {
   const navigate = useNavigate();
