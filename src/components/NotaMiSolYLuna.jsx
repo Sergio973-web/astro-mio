@@ -198,8 +198,22 @@ const energiaNumeroMexica = {
 
 // 🔗 Unión mexica
 const obtenerUnionMexica = (a, b) => {
+  if (!a?.signo || !b?.signo) {
+    return {
+      titulo: 'Unión indeterminada',
+      texto: 'Faltan datos de signo para interpretar la unión.'
+    };
+  }
+
   const sA = energiaSignoMexica[a.signo];
   const sB = energiaSignoMexica[b.signo];
+
+  if (!sA || !sB) {
+    return {
+      titulo: 'Unión no interpretable',
+      texto: `Signos no reconocidos: ${a.signo} / ${b.signo}`
+    };
+  }
 
   let dinamica = 'complementaria';
   if (sA.tipo === sB.tipo) dinamica = 'espejo';
@@ -211,8 +225,6 @@ const obtenerUnionMexica = (a, b) => {
     texto: `Conecta ${sA.rasgo} con ${sB.rasgo}. Relación ${dinamica} que exige conciencia.`
   };
 };
-
-
 export default function NotaMiSolYLuna() {
   const navigate = useNavigate();
   const [fecha, setFecha] = useState('');
