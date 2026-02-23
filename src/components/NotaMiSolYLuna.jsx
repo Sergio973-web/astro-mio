@@ -147,8 +147,10 @@ function fechaAJDN(fechaStr) {
   return JD;
 }
 
-// Base del Tonalpohualli
-const TONAL_BASE_JDN = 584283; // 13/08/3114 a.C. = 1 Cipactli
+
+// Base tradicional mexica:
+// 13/08/1521 (Caída de Tenochtitlan) = 1 Cipactli
+const TONAL_BASE_JDN = 2266291; // 13/08/3114 a.C. = 1 Cipactli
 
 const obtenerTonalpohualli = (fechaStr) => {
   // 🔹 Tomar solo la parte de fecha (AAAA-MM-DD)
