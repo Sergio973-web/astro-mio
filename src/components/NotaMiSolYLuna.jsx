@@ -140,7 +140,7 @@ const mod = (n, m) => ((n % m) + m) % m;
 const TONAL_BASE_JDN = 584283; // 13/08/3114 a.C. = 1 Cipactli
 
 // Conversión a JDN precisa
-function fechaAJDN_debug(fechaStr) {
+function fechaAJDN(fechaStr) {
   const [año, mes, dia] = fechaStr.split('T')[0].split('-').map(Number);
   console.log('📌 Año:', año, 'Mes:', mes, 'Día:', dia);
 
