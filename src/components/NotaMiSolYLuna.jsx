@@ -142,8 +142,9 @@ const TONAL_BASE_JDN = 584283; // 13/08/3114 a.C. = 1 Cipactli
 const OFFSET_CORRECTIVO = -588; // Ajuste para fechas modernas
 
 const fechaAJDN = (fechaStr) => {
-  const date = new Date(fechaStr);
-  return Math.floor(date.getTime()/86400000) + 2440588 + OFFSET_CORRECTIVO;
+  const [y, m, d] = fechaStr.split('T')[0].split('-').map(Number);
+  const utc = Date.UTC(y, m - 1, d); // ← CLAVE
+  return Math.floor(utc / 86400000) + 2440588 + OFFSET_CORRECTIVO;
 };
 
 function obtenerTonalpohualli(fechaStr) {
