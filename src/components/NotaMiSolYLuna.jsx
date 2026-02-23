@@ -152,7 +152,13 @@ function fechaAJDN(fechaStr) {
 const TONAL_BASE_JDN = 584283; // 13/08/3114 a.C. = 1 Cipactli
 
 const obtenerTonalpohualli = (fechaStr) => {
-  const jdn = fechaAJDN(fechaStr);
+  // 🔹 Tomar solo la parte de fecha (AAAA-MM-DD)
+  const fechaSolo = fechaStr.split('T')[0];
+
+  // 🔹 Convertir a JDN
+  const jdn = fechaAJDN(fechaSolo);
+
+  // 🔹 Diferencia respecto a la base del Tonalpohualli
   const delta = jdn - TONAL_BASE_JDN;
 
   const numeroIndex = mod(delta, 13);
@@ -164,7 +170,8 @@ const obtenerTonalpohualli = (fechaStr) => {
   if (!signo) throw new Error('Signo mexica no encontrado');
 
   console.log('🌀 TONAL DEBUG');
-  console.log('Fecha:', fechaStr);
+  console.log('Fecha original:', fechaStr);
+  console.log('Fecha usada (AAAA-MM-DD):', fechaSolo);
   console.log('JDN:', jdn);
   console.log('Delta:', delta);
   console.log('Número:', numero);
