@@ -154,12 +154,14 @@ const obtenerTonalpohualli = (fechaStr) => {
 
   if (!signo) throw new Error('Signo mexica no encontrado');
 
-  console.log('🌀 TONAL DEBUG');
-  console.log('Fecha:', fechaStr);
-  console.log('JDN:', jdn);
-  console.log('Delta:', delta);
-  console.log('Número:', numero);
-  console.log('Signo:', signo);
+  console.log('🌀 TONAL DEBUG (Unix Epoch method)');
+  console.log('Fecha ingresada:', fechaStr);
+  console.log('JDN calculado:', jdn);
+  console.log('Delta desde base:', delta);
+  console.log('Índice número (0-12):', numeroIndex);
+  console.log('Índice signo (0-19):', signoIndex);
+  console.log('Número Tonal:', numero);
+  console.log('Signo Tonal:', signo);
 
   return {
     numero,
