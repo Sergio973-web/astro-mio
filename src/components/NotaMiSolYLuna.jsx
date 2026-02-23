@@ -131,9 +131,10 @@ const signosMexica = [
   { clave: 'Xochitl', texto: 'Xochitl (Flor)' }
 ];
 
+// 🔢 Módulo matemático correcto
 const mod = (n, m) => ((n % m) + m) % m;
 
-// Cálculo JDN proleptico gregoriano
+// 📅 Cálculo de JDN (Gregoriano proléptico)
 function fechaAJDN(fechaStr) {
   const [año, mes, dia] = fechaStr.split('T')[0].split('-').map(Number);
   let Y = año;
@@ -141,42 +142,44 @@ function fechaAJDN(fechaStr) {
   if (M <= 2) { Y -= 1; M += 12; }
   const A = Math.floor(Y / 100);
   const B = 2 - A + Math.floor(A / 4);
-  const JD = Math.floor(365.01450142 * (Y + 4716)) +
-             Math.floor(30.6001 * (M + 1)) +
-             dia + B - 1524;
+  const JD =
+    Math.floor(365.25 * (Y + 4716)) +
+    Math.floor(30.6001 * (M + 1)) +
+    dia + B - 1524;
   return JD;
 }
 
+/*
+📌 BASE TRADICIONAL MEXICA (CORRECTA)
+12/08/1521 = 8 Ocelotl (Jaguar)
 
-// Base tradicional mexica:
-// 13/08/1521 (Caída de Tenochtitlan) = 1 Cipactli
-// 📌 JDN base del Tonalpohualli
-// 1521-08-13 = 1 Cipactli
-const TONAL_BASE_JDN = fechaAJDN('1521-08-13');
+Esta correlación alinea el Tonalpohualli
+con la tradición histórica aceptada.
+*/
+const TONAL_BASE_JDN  = fechaAJDN('1521-08-12');
+const TONAL_BASE_NUM  = 8;   // 8
+const TONAL_BASE_SIGN = 13;  // Ocelotl (Jaguar)
+
+// 🌀 Cálculo del Tonalpohualli
 const obtenerTonalpohualli = (fechaStr) => {
-  // Tomar SOLO la fecha y forzarla a UTC
+  // Tomar solo la fecha (UTC)
   const [y, m, d] = fechaStr.split('T')[0].split('-').map(Number);
   const fechaUTC = `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 
   const jdn = fechaAJDN(fechaUTC);
-  // 🔹 Diferencia respecto a la base del Tonalpohualli
   const delta = jdn - TONAL_BASE_JDN;
 
-  const numeroIndex = mod(delta, 13);
-  const signoIndex  = mod(delta, 20);
-
-  const numero = numeroIndex + 1;
-  const signo  = signosMexica[signoIndex];
+  const numero = mod(TONAL_BASE_NUM - 1 + delta, 13) + 1;
+  const signo  = signosMexica[mod(TONAL_BASE_SIGN + delta, 20)];
 
   if (!signo) throw new Error('Signo mexica no encontrado');
 
+  // 🧪 Debug opcional
   console.log('🌀 TONAL DEBUG');
-  console.log('Fecha original:', fechaStr);
-  
+  console.log('Fecha:', fechaUTC);
   console.log('JDN:', jdn);
   console.log('Delta:', delta);
-  console.log('Número:', numero);
-  console.log('Signo:', signo);
+  console.log('Resultado:', numero, signo.texto);
 
   return {
     numero,
