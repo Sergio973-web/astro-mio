@@ -140,53 +140,45 @@ const mod = (n, m) => ((n % m) + m) % m;
 const TONAL_BASE_JDN = 584283; // 13/08/3114 a.C. = 1 Cipactli
 
 // Conversión a JDN precisa
-function fechaAJDN(fechaStr) {
-  // Tomamos solo AAAA-MM-DD
+function fechaAJDN_debug(fechaStr) {
   const [año, mes, dia] = fechaStr.split('T')[0].split('-').map(Number);
+  console.log('📌 Año:', año, 'Mes:', mes, 'Día:', dia);
 
   let Y = año;
   let M = mes;
-
-  // Ajuste para enero/febrero
   if (M <= 2) { 
     Y -= 1; 
     M += 12; 
   }
+  console.log('📌 Ajuste para enero/febrero → Y:', Y, 'M:', M);
 
-  // Calculo juliano proleptico
   const A = Math.floor(Y / 100);
   const B = 2 - A + Math.floor(A / 4);
+  console.log('📌 A:', A, 'B:', B);
 
   const JD = Math.floor(365.25 * (Y + 4716)) +
              Math.floor(30.6001 * (M + 1)) +
              dia + B - 1524;
+  console.log('📌 JDN calculado:', JD);
 
   return JD;
 }
 
-// Función Tonalpohualli exacta
-function obtenerTonalpohualli(fechaStr) {
-  const jdn = fechaAJDN(fechaStr);
-  const delta = jdn - TONAL_BASE_JDN;
+function obtenerTonalpohualli_debug(fechaStr) {
+  const jdn = fechaAJDN_debug(fechaStr);
+  const delta = jdn - 584283; // base Tonalpohualli
+  console.log('📌 Delta (días desde 1 Cipactli):', delta);
 
-  const numeroIndex = mod(delta, 13);
-  const signoIndex = mod(delta, 20);
+  const numeroIndex = ((delta % 13) + 13) % 13;
+  const signoIndex  = ((delta % 20) + 20) % 20;
 
   const numero = numeroIndex + 1;
   const signo = signosMexica[signoIndex];
 
-  console.log('🌀 TONAL DEBUG');
-  console.log('Fecha original:', fechaStr);
-  console.log('JDN:', jdn);
-  console.log('Delta:', delta);
-  console.log('Número:', numero);
-  console.log('Signo:', signo);
+  console.log('📌 Número:', numero);
+  console.log('📌 Signo:', signo);
 
-  return {
-    numero,
-    signoClave: signo.clave,
-    signoTexto: signo.texto
-  };
+  return { numero, signoClave: signo.clave, signoTexto: signo.texto };
 }
 
 // 🌀 Energía de los signos mexica
