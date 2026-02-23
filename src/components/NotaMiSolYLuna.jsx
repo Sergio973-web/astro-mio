@@ -140,7 +140,7 @@ const mod = (n, m) => ((n % m) + m) % m;
 const TONAL_BASE_JDN = 584283; // 13/08/3114 a.C. = 1 Cipactli
 
 // Conversión a JDN precisa
-function fechaAJDN(fechaStr) {
+function fechaAJDN_debug(fechaStr) {
   const [año, mes, dia] = fechaStr.split('T')[0].split('-').map(Number);
   console.log('📌 Año:', año, 'Mes:', mes, 'Día:', dia);
 
@@ -164,7 +164,7 @@ function fechaAJDN(fechaStr) {
   return JD;
 }
 
-function obtenerTonalpohualli_debug(fechaStr) {
+function obtenerTonalpohualli(fechaStr) {
   const jdn = fechaAJDN_debug(fechaStr);
   const delta = jdn - 584283; // base Tonalpohualli
   console.log('📌 Delta (días desde 1 Cipactli):', delta);
