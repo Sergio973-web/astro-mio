@@ -334,45 +334,46 @@ export default function NotaMiSolYLuna() {
   };
 
   const calcularMexicaPareja = () => {
-    if (!fecha || !fechaPareja) {
-      alert('Por favor selecciona tu fecha y la de la pareja.');
-      return;
-    }
+  if (!fecha || !fechaPareja) {
+    alert('Por favor selecciona tu fecha y la de la pareja.');
+    return;
+  }
 
-    try {
-      // 🔹 Tonalpohualli de la persona
-      const mexicaNatal = obtenerTonalpohualli(fecha);
+  try {
+    // 🔹 Convertir ambas fechas a ISO (UTC)
+    const fechaISO = new Date(fecha).toISOString().slice(0,10);
+    const fechaParejaISO = new Date(fechaPareja).toISOString().slice(0,10);
 
-      // 🔹 Tonalpohualli de la pareja
-      const mexicaPareja = obtenerTonalpohualli(fechaPareja);
+    // 🔹 Calcular Tonalpohualli de cada persona
+    const mexicaNatal = obtenerTonalpohualli(fechaISO);
+    const mexicaPareja = obtenerTonalpohualli(fechaParejaISO);
 
-      // 🔹 Interpretación de la unión
-      const union = obtenerUnionMexica(mexicaNatal, mexicaPareja);
+    // 🔹 Interpretación de la unión
+    const union = obtenerUnionMexica(mexicaNatal, mexicaPareja);
 
-      // 🔹 Texto final con interpretación estilo sacerdote azteca
-      const textoPareja = `
-  🌀 Calendario Mexica (Tonalpohualli – Pareja)
+    // 🔹 Texto final estilo sacerdote azteca
+    const textoPareja = `
+🗓️ Calendario Mexica (Tonalpohualli – Pareja)
 
-  👤 Tú:
-  🔢 ${mexicaNatal.numero} ${mexicaNatal.signoTexto}
-  📖 ${energiaNumeroMexica[mexicaNatal.numero]} · ${energiaSignoMexica[mexicaNatal.signoClave].rasgo}
+👤 Tú:
+🔢 ${mexicaNatal.numero} ${mexicaNatal.signoTexto}
+📖 ${energiaNumeroMexica[mexicaNatal.numero]} · ${energiaSignoMexica[mexicaNatal.signoClave].rasgo}
 
-  ☀️ Pareja:
-  🔢 ${mexicaPareja.numero} ${mexicaPareja.signoTexto}
-  📖 ${energiaNumeroMexica[mexicaPareja.numero]} · ${energiaSignoMexica[mexicaPareja.signoClave].rasgo}
+☀️ Pareja:
+🔢 ${mexicaPareja.numero} ${mexicaPareja.signoTexto}
+📖 ${energiaNumeroMexica[mexicaPareja.numero]} · ${energiaSignoMexica[mexicaPareja.signoClave].rasgo}
 
-  🔗 Unión Mexica:
-  ${union.titulo}
-  📖 ${union.texto}
-      `;
+🔗 Unión Mexica:
+${union.titulo}
+📖 ${union.texto}
+    `;
 
-      setResultado(textoPareja);
-    } catch (error) {
-      setResultado(`Error al calcular Tonalpohualli de la pareja: ${error.message}`);
-    }
-  };
+    setResultado(textoPareja);
 
-
+  } catch (error) {
+    setResultado(`Error al calcular Tonalpohualli de la pareja: ${error.message}`);
+  }
+};
   const consultarLunaSolar = async () => {
     setResultadoSolar('Buscando coincidencias con tu Sol natal...');
     try {
