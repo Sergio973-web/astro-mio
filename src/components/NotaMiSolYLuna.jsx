@@ -444,7 +444,7 @@ export default function NotaMiSolYLuna() {
         onClick={calcularMexicaPareja}
         style={{ ...styles.botonConsultar, backgroundColor: '#FF9800' }}
       >
-        🗓️ Calcular Tonalpohualli de la pareja "Calendario Azteca"
+        🗓️ Calcular Tonalpohualli de la pareja (Calendario Azteca)
       </button>
 
 
