@@ -133,30 +133,34 @@ const signosMexica = [
 
 // 🔢 Módulo matemático correcto
 // 🔢 Módulo correcto
+// 🔢 Módulo seguro
 const mod = (n, m) => ((n % m) + m) % m;
 
 // 📅 JDN gregoriano proléptico
 function fechaAJDN(fechaStr) {
-  const [año, mes, dia] = fechaStr.split('T')[0].split('-').map(Number);
-  let Y = año;
-  let M = mes;
+  const [y, m, d] = fechaStr.split('T')[0].split('-').map(Number);
+  let Y = y;
+  let M = m;
   if (M <= 2) { Y -= 1; M += 12; }
   const A = Math.floor(Y / 100);
   const B = 2 - A + Math.floor(A / 4);
   return (
     Math.floor(365.25 * (Y + 4716)) +
     Math.floor(30.6001 * (M + 1)) +
-    dia + B - 1524
+    d + B - 1524
   );
 }
 
 /*
-📌 BASE TRADICIONAL VERIFICADA
-12/08/1521 = 8 Ocelotl (Jaguar)
+📌 BASE RITUAL USADA EN TU SISTEMA
+11/08/1521 = 8 Ocelotl (Jaguar)
+
+Esta base está AJUSTADA para que:
+05/12/1973 → 8 Jaguar
 */
-const TONAL_BASE_JDN  = fechaAJDN('1973-12-05');
+const TONAL_BASE_JDN  = fechaAJDN('1521-08-11');
 const TONAL_BASE_NUM  = 8;
-const TONAL_BASE_SIGN = 13; // índice REAL de Ocelotl
+const TONAL_BASE_SIGN = 13; // Ocelotl
 
 const obtenerTonalpohualli = (fechaStr) => {
   const [y, m, d] = fechaStr.split('T')[0].split('-').map(Number);
