@@ -110,8 +110,8 @@ const styles = {
 
 // 🌀 Calendario Mexica (Tonalpohualli – 260 días)
 
-// Fecha base aceptada: 13 de agosto de 1521 = 1 Cipactli
-const TONAL_BASE_JDN = 2299161; // JDN astronómico
+// 4 de febrero de 1974 = 1 Cipactli
+const TONAL_BASE_JDN = 2442083;
 const signosMexica = [
   'Cipactli', 'Ehecatl', 'Calli', 'Cuetzpalin', 'Coatl',
   'Miquiztli', 'Mazatl', 'Tochtli', 'Atl', 'Itzcuintli',
