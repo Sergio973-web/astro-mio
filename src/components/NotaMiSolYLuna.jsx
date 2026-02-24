@@ -286,30 +286,110 @@ export default function NotaMiSolYLuna() {
     }
   };
 
-    const obtenerUnionSacerdote = (a, b) => {
+// 🔹 Función para generar texto simbólico de los signos
+const textosSigno = (sA, sB) => {
+  return `El signo de A aporta ${sA.rasgo}, mientras que el signo de B aporta ${sB.rasgo}, generando un equilibrio natural.`;
+};
+
+// 🔹 Función para analizar compatibilidad de signos
+const analizarSignos = (sA, sB) => {
+  if (!sA || !sB) return { tipo: 'indeterminada', texto: 'Faltan datos para interpretar los signos.' };
+
+  let tipo = 'complementaria';
+  let texto = textosSigno(sA, sB);
+
+  // Si ambos signos tienen el mismo tipo → espejo
+  if (sA.tipo === sB.tipo) {
+    tipo = 'espejo';
+    texto = `Los dos signos reflejan mutuamente su energía (${sA.rasgo} y ${sB.rasgo}), fortaleciendo su conexión natural.`;
+  }
+
+  // Combinaciones desafiantes (opuestos simbólicos)
+  const combinacionesDesafiantes = [
+    ['inicio','profundidad'],
+    ['movimiento','estructura'],
+    ['poder','liberacion'],
+    ['expresion','profundidad']
+  ];
+
+  if (combinacionesDesafiantes.some(([x,y]) => 
+      (sA.tipo === x && sB.tipo === y) || (sA.tipo === y && sB.tipo === x))) {
+    tipo = 'desafiante';
+    texto = `La unión de estos signos (${sA.rasgo} y ${sB.rasgo}) genera tensión que invita a adaptarse y crecer.`;
+  }
+
+  return { tipo, texto };
+};
+
+// 🔹 Función para analizar compatibilidad de números
+const analizarNumeros = (a, b) => {
+  const diff = Math.abs(a.numero - b.numero);
+  let tipo = 'armoniosa';
+  let texto = 'Los números crean fluidez y equilibrio en la relación.';
+
+  if (diff === 0) {
+    tipo = 'intensificada';
+    texto = 'La fuerza de ambos se intensifica, manifestando plenamente la energía de sus números.';
+  } else if (diff >= 8) {
+    tipo = 'desafiante';
+    texto = 'Existe tensión entre los números que invita a adaptarse y crecer juntos.';
+  }
+
+  return { tipo, texto };
+};
+
+// 🔹 Función principal: obtener veredicto de unión
+const obtenerUnionSacerdote = (a,b) => {
   const sA = energiaSignoMexica[a.signoClave];
   const sB = energiaSignoMexica[b.signoClave];
+  if(!sA || !sB) return {titulo:'Indeterminada', texto:'Faltan datos para interpretar la unión.'};
 
-  if (!sA || !sB) return { titulo: 'Unión indeterminada', texto: 'Faltan datos para interpretación.' };
+  // --- Analizar signos ---
+  let tipoSigno = 'complementaria';
+  let textoSigno = `Los signos aportan ${sA.rasgo} y ${sB.rasgo}, generando equilibrio natural.`;
 
-  let tipoUnion = 'complementaria';
-  if (sA.tipo === sB.tipo) tipoUnion = 'espejo';
-  if (a.numero === b.numero) tipoUnion = 'intensificada';
-  if (Math.abs(a.numero - b.numero) >= 8) tipoUnion = 'desafiante';
+  if(sA.tipo === sB.tipo){
+    tipoSigno = 'espejo';
+    textoSigno = `Ambos comparten la energía de ${a.signoTexto}, reflejando mutuamente ${sA.rasgo} y fortaleciendo la conexión natural.`;
+  }
 
-  // Textos estilo sacerdote azteca
-  const textosSacerdote = {
-    espejo: `Los dos reflejan mutuamente su destino y esencia, creando armonía y fortaleciendo su conexión natural.`,
-    complementaria: `Sus energías se complementan, generando aprendizaje mutuo y balance en la relación.`,
-    intensificada: `La fuerza de ambos se intensifica, manifestando plenamente la energía de sus números.`,
-    desafiante: `Existe tensión que desafía su conciencia, invitándolos a crecer y adaptarse.`
-  };
+  const desafiantes = [
+    ['inicio','profundidad'],
+    ['movimiento','estructura'],
+    ['poder','liberacion'],
+    ['expresion','profundidad']
+  ];
+  if(desafiantes.some(([x,y])=> (sA.tipo===x&&sB.tipo===y)||(sA.tipo===y&&sB.tipo===x))){
+    tipoSigno = 'desafiante';
+    textoSigno = `La unión de ${a.signoTexto} y ${b.signoTexto} genera tensión que invita a crecer y adaptarse juntos.`;
+  }
 
-  return {
-    titulo: `Unión ${tipoUnion}`,
-    texto: textosSacerdote[tipoUnion]
-  };
-};
+  // --- Analizar números ---
+  const diff = Math.abs(a.numero - b.numero);
+  let tipoNumero = 'armoniosa';
+  let textoNumero = `Los números ${a.numero} y ${b.numero} crean fluidez y equilibrio en la relación.`;
+
+  if(diff===0){
+    tipoNumero = 'intensificada';
+    textoNumero = `La fuerza de ambos números se intensifica, manifestando plenamente su energía.`;
+  } else if(diff>=8){
+    tipoNumero = 'desafiante';
+    textoNumero = `La diferencia entre los números ${a.numero} y ${b.numero} genera desafío y aprendizaje conjunto.`;
+  } else {
+    textoNumero = `El número ${a.numero} aporta ${energiaNumeroMexica[a.numero]}, mientras que ${b.numero} aporta ${energiaNumeroMexica[b.numero]}; juntos forman una armonía única.`;
+  }
+
+  // --- Prioridad ---
+  const prioridad = ['desafiante','espejo','intensificada','armoniosa','complementaria'];
+  let tipoFinal = prioridad.indexOf(tipoSigno) <= prioridad.indexOf(tipoNumero) ? tipoSigno : tipoNumero;
+
+  // --- Texto final poético ---
+  const textoFinal = `${textoSigno}
+${textoNumero}`;
+
+  return {titulo:`Unión ${tipoFinal}`, texto:textoFinal.trim()};
+}
+
   
 const calcularMexicaPareja = () => {
   if (!fecha || !fechaPareja) {
