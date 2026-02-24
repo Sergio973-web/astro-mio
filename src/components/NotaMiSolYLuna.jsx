@@ -286,7 +286,7 @@ export default function NotaMiSolYLuna() {
     }
   };
 
-  const obtenerUnionSacerdote = (a, b) => {
+    const obtenerUnionSacerdote = (a, b) => {
   const sA = energiaSignoMexica[a.signoClave];
   const sB = energiaSignoMexica[b.signoClave];
 
@@ -299,15 +299,15 @@ export default function NotaMiSolYLuna() {
 
   // Textos estilo sacerdote azteca
   const textosSacerdote = {
-    espejo: `Los dos reflejan mutuamente su destino y esencia, reforzando la intuición y la conexión natural.`,
-    complementaria: `Sus energías se complementan, creando armonía y aprendizaje en el camino.`,
-    intensificada: `La fuerza de ambos se duplica, manifestando la energía de su número en plenitud.`,
-    desafiante: `Existe tensión que pone a prueba la conciencia y la adaptación de ambos.`
+    espejo: `Los dos reflejan mutuamente su destino y esencia, creando armonía y fortaleciendo su conexión natural.`,
+    complementaria: `Sus energías se complementan, generando aprendizaje mutuo y balance en la relación.`,
+    intensificada: `La fuerza de ambos se intensifica, manifestando plenamente la energía de sus números.`,
+    desafiante: `Existe tensión que desafía su conciencia, invitándolos a crecer y adaptarse.`
   };
 
   return {
     titulo: `Unión ${tipoUnion}`,
-    texto: `Conecta ${sA.rasgo} con ${sB.rasgo}. ${textosSacerdote[tipoUnion]}`
+    texto: textosSacerdote[tipoUnion]
   };
 };
   
