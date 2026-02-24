@@ -134,49 +134,32 @@ const signosMexica = [
 // 🔢 módulo seguro
 const mod = (n, m) => ((n % m) + m) % m;
 
-// 📅 JDN gregoriano proléptico
+// 🔹 JDN gregoriano proléptico
 function fechaAJDN(fechaStr) {
-  const [y, m, d] = fechaStr.split('-').map(Number);
-  let Y = y;
-  let M = m;
-  if (M <= 2) { Y -= 1; M += 12; }
-  const A = Math.floor(Y / 100);
-  const B = 2 - A + Math.floor(A / 4);
-
-  return (
-    Math.floor(365.25 * (Y + 4716)) +
-    Math.floor(30.6001 * (M + 1)) +
-    d + B - 1524
-  );
+  const [y,m,d] = fechaStr.split('-').map(Number);
+  let Y=y,M=m;
+  if(M<=2){Y-=1; M+=12;}
+  const A=Math.floor(Y/100);
+  const B=2-A+Math.floor(A/4);
+  return Math.floor(365.25*(Y+4716)) + Math.floor(30.6001*(M+1)) + d + B - 1524;
 }
 
-// 📅 JDN base histórico juliano 13/08/1521
-const TONAL_BASE_JDN  = fechaAJDN('1521-08-23'); // 1 Coatl
-const TONAL_BASE_NUM  = 1;       // número Tonalpohualli
-const TONAL_BASE_SIGN = 4;       // Coatl
+// 🔹 Base histórica 13/08/1521 juliano = 1 Coatl
+const TONAL_BASE_JDN = 2299160; // ajdn juliano
+const TONAL_BASE_NUM = 1;
+const TONAL_BASE_SIGN = 4; // Coatl
 
-const obtenerTonalpohualli = (fechaStr) => {
+// 🔹 Tonalpohualli
+function obtenerTonalpohualli(fechaStr){
   const fecha = fechaStr.split('T')[0];
-  const jdn = fechaAJDN(fecha); // JDN gregoriano
+  const jdn = fechaAJDN(fecha);
   const delta = jdn - TONAL_BASE_JDN;
 
-  console.log('Fecha:', fecha);
-  console.log('JDN:', jdn);
-  console.log('Delta:', delta);
+  const numero = mod(delta,13)+1;
+  const signo = signosMexica[mod(TONAL_BASE_SIGN+delta,20)];
 
-  const numero = mod(delta, 13) + 1;
-  const signoIndex = mod(TONAL_BASE_SIGN + delta, 20);
-  const signo = signosMexica[signoIndex];
-
-  console.log('Número Tonalpohualli:', numero);
-  console.log('Signo Tonalpohualli:', signo);
-
-  return {
-    numero,
-    signoClave: signo.clave,
-    signoTexto: signo.texto
-  };
-};
+  return { numero, signoClave: signo.clave, signoTexto: signo.texto };
+}
 
 // 🌀 Energía de los signos mexica
 const energiaSignoMexica = {
