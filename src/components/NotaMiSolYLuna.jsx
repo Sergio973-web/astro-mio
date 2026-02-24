@@ -151,10 +151,10 @@ function fechaAJDN(fechaStr) {
 }
 
 // 🌀 BASE TRADICIONAL MEXICA
-// 1521-08-13 = 1 Cipactli
-const TONAL_BASE_JDN  = fechaAJDN('1521-08-13');
+// 1521-08-13 = 1 Coatl (Serpiente)
+const TONAL_BASE_JDN  = fechaAJDN('1521-08-23');
 const TONAL_BASE_NUM  = 1;
-const TONAL_BASE_SIGN = 0; // Cipactli
+const TONAL_BASE_SIGN = 4;
 
 // 🌀 Cálculo Tonalpohualli (FECHA PURA)
 const obtenerTonalpohualli = (fechaStr) => {
