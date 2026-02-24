@@ -254,8 +254,6 @@ export default function NotaMiSolYLuna() {
         // 🌀 Obtener calendario mexica  
         const mexicaNatal = obtenerTonalpohualli(fecha);
 
-        const unionMexica = obtenerUnionMexica(mexicaNatal);
-
         const textoArcanos = `
         🃏 Tu Arcano Mayor: ${arcanos.mayor.nombre}
         📖 ${arcanos.mayor.descripcion}
