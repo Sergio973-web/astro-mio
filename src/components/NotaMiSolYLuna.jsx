@@ -162,10 +162,23 @@ const obtenerTonalpohualli = (fechaStr) => {
   const jdn = fechaAJDN(fecha);
   const delta = jdn - TONAL_BASE_JDN;
 
+  // 🔍 Log de depuración
+  console.log('Fecha:', fecha);
+  console.log('JDN:', jdn);
+  console.log('Delta desde 13/08/1521:', delta);
+
+  const numero = mod(delta, 13) + 1;
+  const signoIndex = mod(TONAL_BASE_SIGN + delta, 20);
+  const signo = signosMexica[signoIndex];
+
+  console.log('Número Tonalpohualli:', numero);
+  console.log('Índice Signo:', signoIndex);
+  console.log('Signo Tonalpohualli:', signo);
+
   return {
-    numero: mod(delta, 13) + 1,
-    signoClave: signosMexica[mod(TONAL_BASE_SIGN + delta, 20)].clave,
-    signoTexto: signosMexica[mod(TONAL_BASE_SIGN + delta, 20)].texto
+    numero,
+    signoClave: signo.clave,
+    signoTexto: signo.texto
   };
 };
 
