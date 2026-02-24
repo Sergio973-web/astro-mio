@@ -150,29 +150,25 @@ function fechaAJDN(fechaStr) {
   );
 }
 
-// 🌀 BASE HISTÓRICA REAL E INAMOVIBLE
-// 13 de agosto de 1521 (juliano) = 1 Coatl
-const TONAL_BASE_JDN  = fechaAJDN('1521-08-13');
-const TONAL_BASE_NUM  = 1;
-const TONAL_BASE_SIGN = 4; // Coatl
+// 📅 JDN base histórico juliano 13/08/1521
+const TONAL_BASE_JDN  = 2299161; // 13 agosto 1521 juliano
+const TONAL_BASE_NUM  = 1;       // número Tonalpohualli
+const TONAL_BASE_SIGN = 4;       // Coatl
 
-// 🌀 Tonalpohualli DEFINITIVO
 const obtenerTonalpohualli = (fechaStr) => {
   const fecha = fechaStr.split('T')[0];
-  const jdn = fechaAJDN(fecha);
+  const jdn = fechaAJDN(fecha); // JDN gregoriano
   const delta = jdn - TONAL_BASE_JDN;
 
-  // 🔍 Log de depuración
   console.log('Fecha:', fecha);
   console.log('JDN:', jdn);
-  console.log('Delta desde 13/08/1521:', delta);
+  console.log('Delta:', delta);
 
   const numero = mod(delta, 13) + 1;
   const signoIndex = mod(TONAL_BASE_SIGN + delta, 20);
   const signo = signosMexica[signoIndex];
 
   console.log('Número Tonalpohualli:', numero);
-  console.log('Índice Signo:', signoIndex);
   console.log('Signo Tonalpohualli:', signo);
 
   return {
