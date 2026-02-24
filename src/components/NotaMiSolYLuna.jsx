@@ -139,7 +139,7 @@ function fechaAJDN(fechaStr) {
   const [y, m, d] = fechaStr.split('T')[0].split('-').map(Number);
   let Y = y;
   let M = m;
-  if (M <= 2) { Y -= 1; M += 12; }
+  if (M <= 2) { Y -= 1; M += 12; }o
   const A = Math.floor(Y / 100);
   const B = 2 - A + Math.floor(A / 4);
 
@@ -331,30 +331,24 @@ export default function NotaMiSolYLuna() {
     }
   };
 
-  const calcularMexicaPareja = () => {
+const calcularMexicaPareja = () => {
   if (!fecha || !fechaPareja) {
     alert('Por favor selecciona tu fecha y la de la pareja.');
     return;
   }
 
   try {
-    // 🔹 Crear fechas UTC correctamente
-    const toUTCDate = (f) => {
-      const date = new Date(f);
-      return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    };
+    // ✅ FECHA PURA (sin Date, sin UTC)
+    const fechaTuya = fecha.split('T')[0];        // YYYY-MM-DD
+    const fechaOtra = fechaPareja.split('T')[0]; // YYYY-MM-DD
 
-    const fechaUTC = toUTCDate(fecha);
-    const fechaParejaUTC = toUTCDate(fechaPareja);
+    // 🌀 Tonalpohualli correcto
+    const mexicaNatal  = obtenerTonalpohualli(fechaTuya);
+    const mexicaPareja = obtenerTonalpohualli(fechaOtra);
 
-    // 🔹 Calcular Tonalpohualli
-    const mexicaNatal = obtenerTonalpohualli(fechaUTC);
-    const mexicaPareja = obtenerTonalpohualli(fechaParejaUTC);
-
-    // 🔹 Interpretación de la unión
+    // 🔗 Unión
     const union = obtenerUnionMexica(mexicaNatal, mexicaPareja);
 
-    // 🔹 Texto final estilo sacerdote azteca
     const textoPareja = `
 🗓️ Calendario Mexica (Tonalpohualli – Pareja)
 
@@ -369,7 +363,7 @@ export default function NotaMiSolYLuna() {
 🔗 Unión Mexica:
 ${union.titulo}
 📖 ${union.texto}
-    `;
+`;
 
     setResultado(textoPareja);
 
@@ -378,7 +372,7 @@ ${union.titulo}
     setResultado(`Error al calcular Tonalpohualli de la pareja: ${error.message}`);
   }
 };
-
+  
   const consultarLunaSolar = async () => {
     setResultadoSolar('Buscando coincidencias con tu Sol natal...');
     try {
