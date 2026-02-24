@@ -150,28 +150,22 @@ function fechaAJDN(fechaStr) {
   );
 }
 
-/*
-🎯 ANCLA ESTABLE
-1973-12-05 = 8 Ocelotl (Jaguar)
-*/
-const ANCLA_FECHA = '1973-12-05';
-const ANCLA_JDN   = fechaAJDN(ANCLA_FECHA);
-const ANCLA_NUM   = 8;
-const ANCLA_SIGNO = 13; // Ocelotl
+// 🌀 BASE HISTÓRICA REAL E INAMOVIBLE
+// 13 de agosto de 1521 (juliano) = 1 Coatl
+const TONAL_BASE_JDN  = fechaAJDN('1521-08-13');
+const TONAL_BASE_NUM  = 1;
+const TONAL_BASE_SIGN = 4; // Coatl
 
 // 🌀 Tonalpohualli DEFINITIVO
 const obtenerTonalpohualli = (fechaStr) => {
-  const fecha = fechaStr.split('T')[0]; // YYYY-MM-DD
+  const fecha = fechaStr.split('T')[0];
   const jdn = fechaAJDN(fecha);
-  const delta = jdn - ANCLA_JDN;
-
-  const numero = mod(ANCLA_NUM - 1 + delta, 13) + 1;
-  const signo  = signosMexica[mod(ANCLA_SIGNO + delta, 20)];
+  const delta = jdn - TONAL_BASE_JDN;
 
   return {
-    numero,
-    signoClave: signo.clave,
-    signoTexto: signo.texto
+    numero: mod(delta, 13) + 1,
+    signoClave: signosMexica[mod(TONAL_BASE_SIGN + delta, 20)].clave,
+    signoTexto: signosMexica[mod(TONAL_BASE_SIGN + delta, 20)].texto
   };
 };
 
