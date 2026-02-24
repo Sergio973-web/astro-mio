@@ -131,10 +131,6 @@ const signosMexica = [
   { clave: 'Xochitl', texto: 'Xochitl (Flor)' }
 ];
 
-// 🔢 Módulo matemático correcto
-// 🔢 Módulo correcto
-// 🔢 Módulo seguro
-const mod = (n, m) => ((n % m) + m) % m;
 // 🔢 Módulo seguro
 const mod = (n, m) => ((n % m) + m) % m;
 
