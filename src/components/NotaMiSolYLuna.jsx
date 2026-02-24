@@ -131,15 +131,15 @@ const signosMexica = [
   { clave: 'Xochitl', texto: 'Xochitl (Flor)' }
 ];
 
-// 🔢 Módulo seguro
+// 🔢 módulo seguro
 const mod = (n, m) => ((n % m) + m) % m;
 
-// 📅 JDN gregoriano proléptico (solo fecha, sin horas)
+// 📅 JDN gregoriano proléptico
 function fechaAJDN(fechaStr) {
-  const [y, m, d] = fechaStr.split('T')[0].split('-').map(Number);
+  const [y, m, d] = fechaStr.split('-').map(Number);
   let Y = y;
   let M = m;
-  if (M <= 2) { Y -= 1; M += 12; };
+  if (M <= 2) { Y -= 1; M += 12; }
   const A = Math.floor(Y / 100);
   const B = 2 - A + Math.floor(A / 4);
 
@@ -150,23 +150,23 @@ function fechaAJDN(fechaStr) {
   );
 }
 
-// 🌀 BASE TRADICIONAL MEXICA
-// 1521-08-13 = 1 Coatl (Serpiente)
-const TONAL_BASE_JDN  = fechaAJDN('1521-08-23');
-const TONAL_BASE_NUM  = 1;
-const TONAL_BASE_SIGN = 4;
+/*
+🎯 ANCLA ESTABLE
+1973-12-05 = 8 Ocelotl (Jaguar)
+*/
+const ANCLA_FECHA = '1973-12-05';
+const ANCLA_JDN   = fechaAJDN(ANCLA_FECHA);
+const ANCLA_NUM   = 8;
+const ANCLA_SIGNO = 13; // Ocelotl
 
-// 🌀 Cálculo Tonalpohualli (FECHA PURA)
+// 🌀 Tonalpohualli DEFINITIVO
 const obtenerTonalpohualli = (fechaStr) => {
-  // Acepta 'YYYY-MM-DD' o 'YYYY-MM-DDTHH:mm'
-  const [y, m, d] = fechaStr.split('T')[0].split('-').map(Number);
-  const fecha = `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-
+  const fecha = fechaStr.split('T')[0]; // YYYY-MM-DD
   const jdn = fechaAJDN(fecha);
-  const delta = jdn - TONAL_BASE_JDN;
+  const delta = jdn - ANCLA_JDN;
 
-  const numero = mod(TONAL_BASE_NUM - 1 + delta, 13) + 1;
-  const signo  = signosMexica[mod(TONAL_BASE_SIGN + delta, 20)];
+  const numero = mod(ANCLA_NUM - 1 + delta, 13) + 1;
+  const signo  = signosMexica[mod(ANCLA_SIGNO + delta, 20)];
 
   return {
     numero,
