@@ -151,7 +151,7 @@ function fechaAJDN(fechaStr) {
 }
 
 // 📅 JDN base histórico juliano 13/08/1521
-const TONAL_BASE_JDN  = 2299160; // 13 agosto 1521 juliano
+const TONAL_BASE_JDN  = fechaAJDN('1521-08-23'); // 1 Coatl
 const TONAL_BASE_NUM  = 1;       // número Tonalpohualli
 const TONAL_BASE_SIGN = 4;       // Coatl
 
