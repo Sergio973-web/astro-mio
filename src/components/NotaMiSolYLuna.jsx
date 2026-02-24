@@ -202,35 +202,6 @@ const energiaNumeroMexica = {
  13: 'trascendencia y cierre'
 };
 
-// 🔗 Unión mexica
-const obtenerUnionMexica = (a, b) => {
-  if (!a?.signoClave || !b?.signoClave) {
-    return {
-      titulo: 'Unión indeterminada',
-      texto: 'Faltan datos de signo para interpretar la unión.'
-    };
-  }
-
-  const sA = energiaSignoMexica[a.signoClave];
-  const sB = energiaSignoMexica[b.signoClave];
-
-  if (!sA || !sB) {
-    return {
-      titulo: 'Unión no interpretable',
-      texto: `Signos no reconocidos: ${a.signo} / ${b.signo}`
-    };
-  }
-
-  let dinamica = 'complementaria';
-  if (sA.tipo === sB.tipo) dinamica = 'espejo';
-  if (a.numero === b.numero) dinamica = 'intensificada';
-  if (Math.abs(a.numero - b.numero) >= 8) dinamica = 'desafiante';
-
-  return {
-    titulo: `Unión ${dinamica}`,
-    texto: `Conecta ${sA.rasgo} con ${sB.rasgo}. Relación ${dinamica} que exige conciencia.`
-  };
-};
 
 export default function NotaMiSolYLuna() {
   const navigate = useNavigate();
@@ -317,6 +288,31 @@ export default function NotaMiSolYLuna() {
     }
   };
 
+  const obtenerUnionSacerdote = (a, b) => {
+  const sA = energiaSignoMexica[a.signoClave];
+  const sB = energiaSignoMexica[b.signoClave];
+
+  if (!sA || !sB) return { titulo: 'Unión indeterminada', texto: 'Faltan datos para interpretación.' };
+
+  let tipoUnion = 'complementaria';
+  if (sA.tipo === sB.tipo) tipoUnion = 'espejo';
+  if (a.numero === b.numero) tipoUnion = 'intensificada';
+  if (Math.abs(a.numero - b.numero) >= 8) tipoUnion = 'desafiante';
+
+  // Textos estilo sacerdote azteca
+  const textosSacerdote = {
+    espejo: `Los dos reflejan mutuamente su destino y esencia, reforzando la intuición y la conexión natural.`,
+    complementaria: `Sus energías se complementan, creando armonía y aprendizaje en el camino.`,
+    intensificada: `La fuerza de ambos se duplica, manifestando la energía de su número en plenitud.`,
+    desafiante: `Existe tensión que pone a prueba la conciencia y la adaptación de ambos.`
+  };
+
+  return {
+    titulo: `Unión ${tipoUnion}`,
+    texto: `Conecta ${sA.rasgo} con ${sB.rasgo}. ${textosSacerdote[tipoUnion]}`
+  };
+};
+  
 const calcularMexicaPareja = () => {
   if (!fecha || !fechaPareja) {
     alert('Por favor selecciona tu fecha y la de la pareja.');
@@ -333,7 +329,7 @@ const calcularMexicaPareja = () => {
     const mexicaPareja = obtenerTonalpohualli(fechaOtra);
 
     // 🔗 Unión
-    const union = obtenerUnionMexica(mexicaNatal, mexicaPareja);
+    const union = obtenerUnionSacerdote(mexicaNatal, mexicaPareja);
 
     const textoPareja = `
 🗓️ Calendario Mexica (Tonalpohualli – Pareja)
