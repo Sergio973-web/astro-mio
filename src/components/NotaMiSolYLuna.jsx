@@ -151,16 +151,11 @@ function fechaAJDN(fechaStr) {
   );
 }
 
-/*
-📌 BASE RITUAL USADA EN TU SISTEMA
-11/08/1521 = 8 Ocelotl (Jaguar)
-
-Esta base está AJUSTADA para que:
-05/12/1973 → 8 Jaguar
-*/
-const TONAL_BASE_JDN  = fechaAJDN('1521-08-11');
-const TONAL_BASE_NUM  = 8;
-const TONAL_BASE_SIGN = 13; // Ocelotl
+// 📌 BASE TRADICIONAL MEXICA
+// 1521-08-13 = 1 Cipactli
+const TONAL_BASE_JDN  = fechaAJDN('1521-08-13');
+const TONAL_BASE_NUM  = 1;
+const TONAL_BASE_SIGN = 0; // Cipactli
 
 const obtenerTonalpohualli = (fechaStr) => {
   const [y, m, d] = fechaStr.split('T')[0].split('-').map(Number);
